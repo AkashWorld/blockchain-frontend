@@ -8,8 +8,9 @@ function App() {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
-         Hello, World - This is Group 5 - 
+         Hello, World - This is Group 5 - Current Time:
         </p>
+        <Clock></Clock>
         <a
           className="App-link"
           href="https://reactjs.org"
@@ -22,5 +23,6 @@ function App() {
     </div>
   );
 }
+
 
 export default App;
