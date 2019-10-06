@@ -20,15 +20,7 @@ jobs:
         uses: actions/npm@master
         with:
           args: run lint
-      - name: Unit
+      - name: Test
         uses: actions/npm@master
         with:
-          args: run test:unit
-      - name: Integration
-        uses: actions/npm@master
-        with:
-          args: run test:integration
-      - name: Coverage
-        uses: actions/npm@master
-        with:
-          args: run coverage
+          args: run test

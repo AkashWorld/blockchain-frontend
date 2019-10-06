@@ -12,7 +12,7 @@
     "build": "react-scripts build",
     "test": "npm run test:react",
     "test:react": "CI=true react-scripts test",
-    "lint": "",
+    "lint": "eslint --fix .",
     "coverage": ""
   },
   "eslintConfig": {
@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "eslint": "^6.5.1",
-    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-prettier": "^6.4.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.16.0",
@@ -41,7 +41,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm build && npm test"
+      "pre-commit": "npm run lint && npm run build && npm test"
     }
   }
 }
