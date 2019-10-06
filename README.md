@@ -6,19 +6,25 @@ The editor of choice is [VSCode](https://code.visualstudio.com/) for its extensi
 
 Before you push anything up, check that everything is working without errors:
 
-1. Run the build scripts with
+1. Run the install script (to install all other dependencies/libraries)
+
+```
+npm install
+```
+
+2. Run the build scripts with
 
 ```
 npm build
 ```
 
-2. Start the application
+3. Start the application
 
 ```
 npm start
 ```
 
-3. Run all tests
+4. Run all tests
 
 ```
 npm test
