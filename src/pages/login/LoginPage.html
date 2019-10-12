@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>
+        Login
+    </title>
+</head>
+<body>
+    <form>
+        Username: <input type="text" name="username" />
+        Password: <input type="text" name="password"/>
+        <p></p>
+        <button type="button" onclick="user()" >Login</button>
+        <button type="button" onclick="newAccount()">Create an account.</button>
+    </form>
+    <script>//javascript
+        //loginPage.js
+        function user() {
+            var name = document.getElementsByName("username").value
+            var password = document.getElementsByName("password").value
+
+        }
+
+        function newAccount() {
+            var name = prompt("\nCreate a username: ")
+            var password = prompt("\nCreate a password: ")
+            var p2 = prompt("\nEnter password again: ")
+            while (password != p2) {
+                var password = prompt("\nCreate password: ")
+                var p2 = prompt("\nEnter password again: ")
+            }
+
+        }
+    </script>
+</body>
+</html>
