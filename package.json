@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.2.2",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
     "react-router-dom": "^5.1.2",
@@ -13,7 +15,7 @@
     "build": "react-scripts build",
     "test": "npm run test:react",
     "test:react": "CI=true react-scripts test --passWithNoTests",
-    "lint": "eslint --fix .",
+    "lint": "eslint --fix ./src/**/*.js*",
     "coverage": ""
   },
   "eslintConfig": {
@@ -42,7 +44,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint && npm run build && npm test"
+      "pre-commit": "npm run lint && npm run build"
     }
   }
 }
