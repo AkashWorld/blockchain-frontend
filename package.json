@@ -4,6 +4,9 @@
   "private": true,
   "dependencies": {
     "chai": "^4.2.0",
+    "echarts": "^4.4.0",
+    "echartslayer": "^0.1.6",
+    "mapbox-gl": "^1.4.1",
     "mocha": "^6.2.2",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
@@ -15,7 +18,7 @@
     "build": "react-scripts build",
     "test": "npm run test:react",
     "test:react": "CI=true react-scripts test --passWithNoTests",
-    "lint": "eslint --fix ./src/**/*.js*",
+    "lint": "eslint --fix ./src/**/*.js && eslint --fix ./src/**/*.jsx",
     "coverage": ""
   },
   "eslintConfig": {
