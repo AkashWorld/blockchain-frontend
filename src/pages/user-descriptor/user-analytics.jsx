@@ -1,6 +1,7 @@
 import React from "react";
 import { CardComponent } from "../../utilities/card";
 import { DataEntryMap } from "./data-entry-map";
+import { WeightRangeChart } from "./weightrangechart";
 
 const styles = {
   pageContainer: {
@@ -15,7 +16,7 @@ const styles = {
     height: "100%",
     display: "flex",
     flexDirection: "row",
-    justifyContent: "flex-start",
+    justifyContent: "center",
     flexWrap: "wrap",
     alignContent: "flex-start"
   }
@@ -32,6 +33,9 @@ export class UserAnalyticsPage extends React.Component {
         <div style={styles.pageBg}>
           <CardComponent title="Recently Visited Locations">
             <DataEntryMap></DataEntryMap>
+          </CardComponent>
+          <CardComponent title="Weight Ranges In Your Area">
+            <WeightRangeChart></WeightRangeChart>
           </CardComponent>
         </div>
       </div>
