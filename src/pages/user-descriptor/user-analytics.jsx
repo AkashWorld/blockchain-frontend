@@ -6,6 +6,7 @@ import { TopNavigator } from "../../utilities/top-navigator";
 import { BMICardComponent } from "./bmi-card";
 import { WeightChangeComponent } from "./weight-change-card";
 import { EtheriumBalanceComponent } from "./etherium-card";
+import { LineGraph } from "./line-graph";
 
 const styles = {
   /**
@@ -84,6 +85,9 @@ export class UserAnalyticsPage extends React.Component {
               style={{ backgroundColor: "#0d3766" }}
             >
               <EtheriumBalanceComponent></EtheriumBalanceComponent>
+            </CardComponent>
+            <CardComponent title="Weight Change Over Time">
+              <LineGraph> </LineGraph>
             </CardComponent>
             <CardComponent title="Recently Visited Locations">
               <DataEntryMap></DataEntryMap>

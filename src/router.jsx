@@ -5,6 +5,7 @@ import { DataEntryForm } from "./pages/data-entry/data-entry";
 import { UserAnalyticsPage } from "./pages/user-descriptor/user-analytics";
 /**
  * To learn how to use the Router: https://reacttraining.com/react-router/web/guides/quick-start
+
  */
 export class RouterComponent extends React.Component {
   render() {

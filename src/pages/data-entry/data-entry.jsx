@@ -133,7 +133,7 @@ export class DataEntryForm extends Component {
             <br />
           </span>
           <label htmlFor="Entry">
-            Enter Height and it's Units:
+            Enter Height and it&apos;s Units:
             <input
               className="form-control"
               type="input"
@@ -160,7 +160,9 @@ export class DataEntryForm extends Component {
           </span>
           <label htmlFor="Entry">
             {" "}
-            Enter Weight and it's Units:
+            
+          Enter Weight and it&apos;s Units:
+           
             <input
               className="form-control"
               type="input"

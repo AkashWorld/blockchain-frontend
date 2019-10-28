@@ -14,7 +14,7 @@ export class DataEntryMap extends React.Component {
    */
   static retrieveMarkers() {
     return ruMapMarkers.features
-      .filter(feature => feature.geometry.type == "Point")
+      .filter(feature => feature.geometry.type === "Point")
       .map(marker => marker.geometry.coordinates);
   }
 
@@ -114,7 +114,7 @@ export class DataEntryMap extends React.Component {
 
 const stylesheet = {
   mapContainer: {
-    width: 750,
+    width: 570,
     height: 350
   },
   marker: {
