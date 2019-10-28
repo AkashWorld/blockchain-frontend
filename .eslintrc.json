@@ -17,6 +17,7 @@
   },
   "rules": {
     "no-var": "error",
-    "react/prop-types": "warn"
+    "react/prop-types": "warn",
+    "camelcase": "error"
   }
 }

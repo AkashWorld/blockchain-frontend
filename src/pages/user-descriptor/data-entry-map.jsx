@@ -74,7 +74,7 @@ export class DataEntryMap extends React.Component {
         "line-cap": "round"
       },
       paint: {
-        "line-color": "red",
+        "line-color": "#ee9ca7",
         "line-width": 3
       }
     });

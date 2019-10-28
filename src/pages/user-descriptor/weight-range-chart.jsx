@@ -160,7 +160,7 @@ export class WeightRangeChart extends React.Component {
   render() {
     return (
       <ReactEcharts
-        style={{ height: "350px", width: "500px" }}
+        style={{ height: "350px", width: "750px" }}
         option={{
           title: {
             textAlign: "Auto",
@@ -193,7 +193,7 @@ export class WeightRangeChart extends React.Component {
             {
               type: "bar",
               barGap: "0%",
-              color: "#282c34",
+              color: "#331c05",
               markPoint: {
                 symbol: "pin",
                 itemStyle: { color: processDataList(arrData).pincolorm },
@@ -211,7 +211,7 @@ export class WeightRangeChart extends React.Component {
             {
               type: "bar",
               barGap: "0%",
-              color: "#09d3ac",
+              color: "#ee9ca7",
               markPoint: {
                 symbol: "pin",
                 itemStyle: { color: processDataList(arrData).pincolorf },
