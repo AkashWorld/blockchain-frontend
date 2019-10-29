@@ -7,6 +7,7 @@ import { BMICardComponent } from "./bmi-card";
 import { WeightChangeComponent } from "./weight-change-card";
 import { EtheriumBalanceComponent } from "./etherium-card";
 import { LineGraph } from "./line-graph";
+import { WeightAreaChart } from "./weight-area-chart";
 
 const styles = {
   /**
@@ -25,7 +26,7 @@ const styles = {
     backgroundImage:
       "linear-gradient( 171.8deg,  rgba(238,156,167,1) 13.8%, rgba(246,204,162,1) 82.6% )",
     width: "100%",
-    height: "100%",
+    height: "fit-content(100%)",
     display: "flex",
     flexDirection: "row",
     justifyContent: "center",
@@ -91,6 +92,9 @@ export class UserAnalyticsPage extends React.Component {
             </CardComponent>
             <CardComponent title="Recently Visited Locations">
               <DataEntryMap></DataEntryMap>
+            </CardComponent>
+            <CardComponent title="Weight Ranges in your Area">
+              <WeightAreaChart></WeightAreaChart>
             </CardComponent>
           </div>
         </div>

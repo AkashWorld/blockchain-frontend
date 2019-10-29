@@ -12,8 +12,8 @@ export class CardComponent extends React.Component {
       card: {
         boxShadow: "2px 2px 6px grey",
         display: "inline-block",
-        width: "-moz-fit-content",
-        height: "-moz-fit-content",
+        width: "fit-content(100%)",
+        height: "fit-content(100%)",
         margin: "15px",
         padding: "20px",
         backgroundImage: "linear-gradient(to top, white 0%, white 100%)",
