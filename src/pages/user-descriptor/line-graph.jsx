@@ -133,10 +133,10 @@ let pincolorm;
 let pincolorf;
 
 if (usergender == "Male") {
-  pincolorm = "green";
+  pincolorm = "#8186d5";
   pincolorf = "#00000000";
 } else if (usergender == "Female") {
-  pincolorm = "blue";
+  pincolorm = "#ddb6c6";
   pincolorf = "#00000000";
 }
 
@@ -199,15 +199,22 @@ export class LineGraph extends React.Component {
             })
           },
           yAxis: {
+            padding: [0, 20, 20, 20],
             name: "Weight",
+            nameLocation: "end",
+            nameGap: 35,
             nameTextStyle: { fontWeight: "bold" },
             type: "value"
           },
           visualMap: {
             show: true,
             type: "piecewise",
+            itemGap: 15,
+            itemWidth: 9,
+            padding: [0, 0, 0, 5],
             textStyle: {
-              color: "white"
+              color: "black",
+              width: 0
             },
             top: 40,
             right: 10,
@@ -247,7 +254,7 @@ export class LineGraph extends React.Component {
             }
           },
           textStyle: {
-            color: "#495057"
+            color: "black"
           },
           dataZoom: [
             {
@@ -262,7 +269,7 @@ export class LineGraph extends React.Component {
               type: "inside"
             }
           ],
-          backgroundColor: "transparent"
+          backgroundColor: "white"
         }}
       />
     );
