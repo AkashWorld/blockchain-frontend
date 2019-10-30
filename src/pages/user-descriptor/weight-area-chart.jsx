@@ -191,7 +191,7 @@ export class WeightAreaChart extends React.Component {
           },
           toolbox: {
             feature: {
-              saveAsImage: {}
+              saveAsImage: {title: '\n\nSave'}
             }
           },
           grid: {

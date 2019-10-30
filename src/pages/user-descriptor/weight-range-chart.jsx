@@ -167,6 +167,11 @@ export class WeightRangeChart extends React.Component {
             left: "center",
             top: "5%"
           },
+          toolbox: {
+            feature: {
+              saveAsImage: {title: '\n\nSave'}
+            }
+          },
           backgroundColor: "transparent",
           legend: {
             right: "10%",
@@ -196,6 +201,8 @@ export class WeightRangeChart extends React.Component {
               color: "#331c05",
               markPoint: {
                 symbol: "pin",
+                symbolSize: 30,
+                label: {show: false},
                 itemStyle: { color: processDataList(arrData).pincolorm },
                 data: [
                   {
@@ -214,6 +221,8 @@ export class WeightRangeChart extends React.Component {
               color: "#ee9ca7",
               markPoint: {
                 symbol: "pin",
+                symbolSize: 30,
+                label: {show: false},
                 itemStyle: { color: processDataList(arrData).pincolorf },
                 data: [
                   {

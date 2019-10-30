@@ -192,6 +192,11 @@ export class LineGraph extends React.Component {
               data: weightArray
             }
           ],
+          toolbox: {
+            feature: {
+              saveAsImage: {title: '\n\nSave'}
+            }
+          },
           tooltip: {
             trigger: "axis",
             data: dataArray.map(function(BossObject) {
