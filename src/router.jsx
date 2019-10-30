@@ -1,6 +1,6 @@
 import React from "react";
 import { LoginComponent } from "./pages/login/login";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { HashRouter, Switch, Route } from "react-router-dom";
 import { DataEntryForm } from "./pages/data-entry/data-entry";
 import { UserAnalyticsPage } from "./pages/user-descriptor/user-analytics";
 /**
@@ -10,7 +10,7 @@ import { UserAnalyticsPage } from "./pages/user-descriptor/user-analytics";
 export class RouterComponent extends React.Component {
   render() {
     return (
-      <BrowserRouter>
+      <HashRouter>
         <div>
           <Switch>
             <Route path="/login">
@@ -29,7 +29,7 @@ export class RouterComponent extends React.Component {
             </Route>
           </Switch>
         </div>
-      </BrowserRouter>
+      </HashRouter>
     );
   }
 }
