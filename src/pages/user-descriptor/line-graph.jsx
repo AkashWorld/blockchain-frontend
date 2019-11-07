@@ -54,10 +54,6 @@ for (let i = 0; i < 100; i++) {
   dataArray.push(newWTobject);
 }
 
-for (let i = 0; i < 100; i++) {
-  console.log(dataArray[i]);
-}
-
 let sortedTimeArray = [];
 for (let j = 0; j < dataArray.length; j++) {
   sortedTimeArray[j] = dataArray[j].time;
@@ -194,7 +190,7 @@ export class LineGraph extends React.Component {
           ],
           toolbox: {
             feature: {
-              saveAsImage: {title: '\n\nSave'}
+              saveAsImage: { title: "\n\nSave" }
             }
           },
           tooltip: {
