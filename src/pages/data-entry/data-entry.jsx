@@ -8,12 +8,15 @@ export class DataEntryForm extends Component {
       age: "",
       sex: "",
       weight: "",
+      //For all of our units, we have hypothetical arrays called WeightUnitsArray and HeightUnitsArray
+      //These are 2-D arrays with the first column dedicated to the unit name, and the second part dedicated to its ratio in comparison to 1 kg or 1 m.
+      //These Arrays should be initialized with the any common units (kg, lb, m, and ft).
       wunits: "",
       height: "",
       hunits: "",
       errorsex: false,
       errorhunits: false,
-      errorwunits: false
+      errorwunits: false,
     };
 
     this.addweight = this.addweight.bind(this);
@@ -29,6 +32,15 @@ export class DataEntryForm extends Component {
     this.setState({ ...this.state, ...{ weight: w.target.value } });
   }
   addweightUnits(unitw) {
+    /*
+    this.setState({ ...this.state, ...{errorwunits : true}});
+    for (i = 0; i < WeightUnitsArray.length; i++){
+      if (unitw.target.value === WeightUnitsArray[i]){
+        this.setState({ ...this.state, ...{errorwunits : false}});
+        this.setState({ ...this.state, ...{ wunits: unitw.target.value } });
+      }
+    }
+    */
     if (unitw.target.value !== "lb" && unitw.target.value !== "kg") {
       this.setState({ ...this.state, ...{ errorwunits: true } });
     } else {
@@ -40,6 +52,15 @@ export class DataEntryForm extends Component {
     this.setState({ ...this.state, ...{ height: h.target.value } });
   }
   addheightUnits(unith) {
+    /*
+    this.setState({ ...this.state, ...{errorhunits : true}});
+    for (i = 0; i < WeightUnitsArray.length; i++){
+      if (unith.target.value === HeightUnitsArray[i]){
+        this.setState({ ...this.state, ...{errorhunits : false}});
+        this.setState({ ...this.state, ...{ hunits: unith.target.value } });
+      }
+    }
+    */
     if (
       unith.target.value !== "cm" &&
       unith.target.value !== "m" &&
@@ -71,6 +92,35 @@ export class DataEntryForm extends Component {
     }
   }
   enterForm() {
+    if (this.state.errorhunits) {
+      {
+        let newunith = prompt(
+          "We do not recognize this unit. What is it's ratio to 1 ?"
+        );
+        if (isNaN(newunith)){
+          this.enterForm();
+        }else{
+        //HeightUnitsArray.push([hunits, newunith])
+        this.setState({errorhunits : false});
+        }
+      }
+    }
+
+    if (this.state.errorwunits) {
+      {
+        let newunitw = prompt(
+          "We do not recognize this unit. What is it's ratio to 1 kilogram? (i.e. 1 kg = 2.205 lb so you would enter 2.205)"
+        );
+        if (isNaN(newunitw)){
+          this.enterForm();
+        }else{
+        //WeightUnitsArray.push([wunits, newunitw])
+        this.setState({errorwunits : false});
+        }
+        }
+      }
+    }
+
     {
       let confirmation = prompt(
         "Do the following look correct (Y/N)? \n Age is: " +
@@ -150,7 +200,7 @@ export class DataEntryForm extends Component {
             />
             <React.Fragment>
               {this.state.errorhunits ? (
-                <h1>Invalid entry for units of height</h1>
+                <h1>We do not recognize this unit, and will ask you about it.</h1>
               ) : null}
             </React.Fragment>
           </label>
@@ -160,9 +210,7 @@ export class DataEntryForm extends Component {
           </span>
           <label htmlFor="Entry">
             {" "}
-            
-          Enter Weight and it&apos;s Units:
-           
+            Enter Weight and it&apos;s Units:
             <input
               className="form-control"
               type="input"
@@ -179,7 +227,7 @@ export class DataEntryForm extends Component {
             />
             <React.Fragment>
               {this.state.errorwunits ? (
-                <h1>Invalid entry for units of weight</h1>
+                <h1>We do not recognize this unit, and will ask you about it.</h1>
               ) : null}
             </React.Fragment>
           </label>
