@@ -123,6 +123,24 @@ data.bpm.forEach(val => {
  * Resolvers for GQL
  */
 module.exports.resolvers = {
+  Mutation: {
+    insertValue: async () => {
+      /** Sleep for 2 seconds to simulate insertion and return random string that represents the transactionHash */
+      await sleep(2000);
+      return (
+        "0x" +
+        Math.random()
+          .toString(36)
+          .substring(2, 15) +
+        Math.random()
+          .toString(36)
+          .substring(2, 15) +
+        Math.random()
+          .toString(36)
+          .substring(2, 15)
+      );
+    }
+  },
   Query: {
     getAllAvailableUnits: () => {
       return ["lb", "inch", "bpm"];
@@ -160,3 +178,7 @@ module.exports.resolvers = {
     }
   }
 };
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}

@@ -16,4 +16,13 @@ type Query {
 		count: Int!
 	): [Descriptor!]!
 }
+
+type Mutation {
+        insertValue(
+                unit: String!
+                value: Float!
+                longitude: Float
+                latitude: Float
+        ): String!
+}
 `;
