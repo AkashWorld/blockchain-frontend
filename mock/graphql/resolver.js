@@ -156,7 +156,8 @@ module.exports.resolvers = {
       }
       return null;
     },
-    getPaginatedDescriptors: (_, args) => {
+    getPaginatedDescriptors: async (_, args) => {
+      await sleep(300);
       switch (args.unit) {
         case "lb":
           return data.lbs.slice(
