@@ -10,11 +10,11 @@ import { ApolloProvider } from "@apollo/react-hooks";
  * development to 8080 for production (will change as we change to a real backend
  * server on AWS)
  */
-const remoteUrl =
-  // eslint-disable-next-line no-undef
-  process.env.NODE_ENV === "production"
-    ? "http://localhost:8080"
-    : "http://localhost:10000";
+const remoteUrl = "http://localhost:8080";
+// eslint-disable-next-line no-undef
+//process.env.NODE_ENV === "production"
+//  ? "http://localhost:8080"
+//: "http://localhost:10000";
 
 console.log(`Listening to address ${remoteUrl}/graphql for GraphQL`);
 
