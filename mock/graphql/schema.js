@@ -25,4 +25,37 @@ type Mutation {
                 latitude: Float
         ): String!
 }
+enum Trend {
+        UP
+        SAME
+        DOWN
+}
+
+type DailyTrend {
+        unit: String!
+        value: Float!
+        trend: Trend
+}
+
+extend type Query {
+        getDailyWeight: DailyTrend
+        getDailyBMI: DailyTrend
+}
+
+enum TransactionResponse {
+        TRANSACTION_HASH
+        CONFIRMATION
+        RECIEPT
+        ERROR
+}
+
+type InsertValueResponse {
+        transactionHash: String!
+        responseType: TransactionResponse!
+        message: String!
+}
+
+type Subscription {
+        insertValueSubscription: InsertValueResponse!
+}
 `;

@@ -1,3 +1,7 @@
+const { PubSub } = require("graphql-subscriptions");
+
+const subscriptions = new PubSub();
+const SUBSCRIPTION_KEY = "subscription key";
 /**
  * Generating semi-random data for mocking purposes
  */
@@ -126,8 +130,9 @@ module.exports.resolvers = {
   Mutation: {
     insertValue: async () => {
       /** Sleep for 2 seconds to simulate insertion and return random string that represents the transactionHash */
-      await sleep(2000);
-      return (
+      /** Begins an async function that publishes result of this mutation that can be listened to via the isnertValueSubscription subscription*/
+      await sleep(300);
+      const txHash =
         "0x" +
         Math.random()
           .toString(36)
@@ -137,8 +142,9 @@ module.exports.resolvers = {
           .substring(2, 15) +
         Math.random()
           .toString(36)
-          .substring(2, 15)
-      );
+          .substring(2, 15);
+      insertValueMockPublishing(txHash);
+      return txHash;
     }
   },
   Query: {
@@ -176,9 +182,58 @@ module.exports.resolvers = {
           );
       }
       return [];
+    },
+    getDailyBMI: () => {
+      let trend = "UP";
+      if (Math.random() > 0.5) trend = "DOWN";
+      return {
+        unit: "BMI",
+        value: 22.3,
+        trend
+      };
+    },
+    getDailyWeight: () => {
+      let trend = "UP";
+      if (Math.random() > 0.5) trend = "DOWN";
+      return {
+        unit: "lb",
+        value: 189,
+        trend
+      };
+    }
+  },
+  Subscription: {
+    insertValueSubscription: {
+      subscribe: () => {
+        console.log("Subscribed to insertValueSubscription");
+        return subscriptions.asyncIterator(SUBSCRIPTION_KEY);
+      }
     }
   }
 };
+
+async function insertValueMockPublishing(txHash) {
+  await sleep(10000);
+  console.log("Publishing reciept");
+  subscriptions.publish(SUBSCRIPTION_KEY, {
+    insertValueSubscription: {
+      transactionHash: txHash,
+      responseType: "RECIEPT",
+      message: txHash
+    }
+  });
+  for (let i = 0; i < 30; ++i) {
+    await sleep(750);
+    console.log("Publishing confirmation " + i);
+    subscriptions.publish(SUBSCRIPTION_KEY, {
+      insertValueSubscription: {
+        transactionHash: txHash,
+        responseType: "CONFIRMATION",
+        message: i
+      }
+    });
+  }
+}
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
