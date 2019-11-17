@@ -331,6 +331,12 @@ module.exports.resolvers = {
           .substring(2, 15);
       insertValueMockPublishing(txHash);
       return txHash;
+    },
+    login: (obj, args, context) => {
+        console.log(context)
+        return {
+            signed_address: "hello"
+        };
     }
   },
   Query: {
