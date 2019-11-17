@@ -1,5 +1,5 @@
 import React from "react";
-import { LoginComponent } from "./pages/login/login";
+import { Login} from "./pages/login/login";
 import { HashRouter, Switch, Route } from "react-router-dom";
 import { DataEntryForm } from "./pages/data-entry/data-entry";
 import { UserAnalyticsPage } from "./pages/user-descriptor/user-analytics";
@@ -8,28 +8,34 @@ import { UserAnalyticsPage } from "./pages/user-descriptor/user-analytics";
 
  */
 export class RouterComponent extends React.Component {
-  render() {
-    return (
+    render() {
+        return (
+            <div>
+                <HashRouter>
+                    <Switch>
+                        <Route path="/" component={Login}/>
+                    </Switch>
+                </HashRouter>
+            </div>
+    );
+    /*return (
       <HashRouter>
-        <div>
-          <Switch>
-            <Route path="/login">
-              <LoginComponent></LoginComponent>
-            </Route>
+            <div>
+                <Route path="/user-analytics" component={UserAnalyticsPage}></Route>
+                <Switch>
+                    <Route path="/login" component={LoginComponent} />
+              <LoginComponent/>
             <Route path="/sign-up"></Route>
             <Route path="/form">
               <DataEntryForm></DataEntryForm>
             </Route>
-            <Route path="/global-analytics"></Route>
-            <Route path="/user-analytics">
-              <UserAnalyticsPage></UserAnalyticsPage>
-            </Route>
-            <Route path="/">
-              <div>Try /login or another route</div>
+                    <Route path="/global-analytics"></Route>
+            
+            <Route exact path="/">
             </Route>
           </Switch>
         </div>
       </HashRouter>
-    );
+    );*/
   }
 }

@@ -139,7 +139,13 @@ module.exports.resolvers = {
           .toString(36)
           .substring(2, 15)
       );
-    }
+    },
+        login: (obj, args, context) => {
+            console.log(context)
+            return {
+                signed_address: "hello"
+            };
+        }
   },
   Query: {
     getAllAvailableUnits: () => {
@@ -176,7 +182,7 @@ module.exports.resolvers = {
           );
       }
       return [];
-    }
+      }
   }
 };
 

@@ -24,5 +24,13 @@ type Mutation {
                 longitude: Float
                 latitude: Float
         ): String!
+        login(unsigned_address: String!): Login!
 }
-`;
+type Login {
+    signed_address: String!
+}
+
+extend type Query {
+    loginM: Login!
+}`
+;
