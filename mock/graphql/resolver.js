@@ -200,6 +200,9 @@ module.exports.resolvers = {
         value: 189,
         trend
       };
+    },
+    getBalance: () => {
+      return Math.random() * 100;
     }
   },
   Subscription: {

@@ -58,4 +58,8 @@ type InsertValueResponse {
 type Subscription {
         insertValueSubscription: InsertValueResponse!
 }
+
+extend type Query {
+	getBalance: Float!
+}
 `;
