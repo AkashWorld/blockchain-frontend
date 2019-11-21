@@ -8,6 +8,7 @@ type Descriptor {
 }
 
 type Query {
+        getAllAvailableUnitsGlobal: [String!]!
 	getAllAvailableUnits: [String!]!
 	getLatestUnitValue(unit: String!): Float!
 	getPaginatedDescriptors(

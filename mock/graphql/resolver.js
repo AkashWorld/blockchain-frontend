@@ -151,6 +151,9 @@ module.exports.resolvers = {
     getAllAvailableUnits: () => {
       return ["lb", "inch", "bpm"];
     },
+    getAllAvailableUnitsGlobal: () => {
+      return ["lb", "inch", "bpm"];
+    },
     getLatestUnitValue: (_, args) => {
       switch (args.unit) {
         case "lb":
