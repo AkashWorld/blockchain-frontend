@@ -5,6 +5,8 @@ const SUBSCRIPTION_KEY = "subscription key";
 /**
  * Generating semi-random data for mocking purposes
  */
+
+
 const data = {};
 data.lbs = [
   { value: 150 },
@@ -87,6 +89,11 @@ let rutgersLatLong = { latitude: 40.501304, longitude: -74.447367 };
 function randomSign() {
   if (Math.random() < 0.5) return -1;
   return 1;
+}
+function getRandomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 let initTimeStamp = 1573055843;
@@ -215,6 +222,35 @@ module.exports.resolvers = {
             data.bpm.length - args.start - args.count,
             data.bpm.length - args.start
           );
+      }
+      return [];
+    },
+    getValuesForUnit: async (_, args) => {
+      await sleep(300);
+      switch (args.unit) {
+        case "lb":
+          return data.lbs;
+        case "inch":
+          return data.inch;
+        case "bpm":
+          return data.bpm;
+      }
+      return [];
+    },
+    getValuesForUnitGlobal: async (_, args) => {
+
+      
+      
+    
+      
+      await sleep(300);
+      switch (args.unit) {
+        case "lb":
+          return data.inch;
+        case "inch":
+          return data.inch;
+        case "bpm":
+          return data.bpm;
       }
       return [];
     },
