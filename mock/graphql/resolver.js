@@ -165,7 +165,39 @@ module.exports.resolvers = {
       }
       return null;
     },
+    getLatestUnitValueGlobal: (_, args) => {
+      switch (args.unit) {
+        case "lb":
+          return 135;
+        case "inch":
+          return 76;
+        case "bpm":
+          return 80;
+      }
+      return null;
+    },
     getPaginatedDescriptors: async (_, args) => {
+      await sleep(300);
+      switch (args.unit) {
+        case "lb":
+          return data.lbs.slice(
+            data.lbs.length - args.start - args.count,
+            data.lbs.length - args.start
+          );
+        case "inch":
+          return data.inch.slice(
+            data.inch.length - args.start - args.count,
+            data.inch.length - args.start
+          );
+        case "bpm":
+          return data.bpm.slice(
+            data.bpm.length - args.start - args.count,
+            data.bpm.length - args.start
+          );
+      }
+      return [];
+    },
+    getPaginatedDescriptorsGlobal: async (_, args) => {
       await sleep(300);
       switch (args.unit) {
         case "lb":

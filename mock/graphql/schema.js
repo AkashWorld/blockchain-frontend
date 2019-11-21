@@ -8,9 +8,17 @@ type Descriptor {
 }
 
 type Query {
+	getValuesForUnitGlobal(unit: String!): [Descriptor!]!
         getAllAvailableUnitsGlobal: [String!]!
+        getLatestUnitValueGlobal(unit: String!): Float!
+        getPaginatedDescriptorsGlobal(
+		unit: String!
+		start: Int!
+		count: Int!
+        ): [Descriptor!]!
+	getValuesForUnit(unit: String!): [Descriptor!]!
 	getAllAvailableUnits: [String!]!
-	getLatestUnitValue(unit: String!): Float!
+        getLatestUnitValue(unit: String!): Float!
 	getPaginatedDescriptors(
 		unit: String!
 		start: Int!
