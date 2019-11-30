@@ -1,13 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import { RouterComponent } from "./router";
+import  RouterComponent    from "./router";
 import * as serviceWorker from "./serviceWorker";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { setContext } from "apollo-link-context";
 import { createHttpLink } from "apollo-link-http";
+import { InMemoryCache } from 'apollo-cache-inmemory';
 import { graphql } from "react-apollo";
+import { hasLoggedIn } from "./queries";
 
 /**URL for the backend server, this changes from 10000 for normal
  * development to 8080 for production (will change as we change to a real backend
@@ -37,8 +39,10 @@ const authLink = setContext(async (req, { headers }) => {
     }
 });
 const link = authLink.concat(httpLink);
-const client = new ApolloClient({ link });
-/*const client = new ApolloClient({ uri: `${remoteUrl}/graphql` });*/
+const cache = new InMemoryCache();
+const client = process.env.NODE_ENV === "production"
+    ? new ApolloClient({ link, cache})
+    : new ApolloClient({ uri: `${remoteUrl}/graphql`, cache });
 
 ReactDOM.render(
   <ApolloProvider client={client}>

@@ -1,10 +1,14 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./login.css";
 import Web3 from "web3";
 import { ApolloClient, gql } from "apollo-boost";
-import { ApolloProvider, useMutation, useApolloClient} from "@apollo/react-hooks";
-import { login } from '../../queries';
-
+import { ApolloProvider, useMutation, useApolloClient } from "@apollo/react-hooks";
+import { login, hasLoggedIn } from '../../queries';
+import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import { token } from '../../resources/token';
+import { UserAnalyticsPage } from '../user-descriptor/user-analytics';
+import LoadingScreen from 'react-loading-screen';
 
 class LoginComponent extends React.Component {
     constructor(props) {
@@ -30,27 +34,53 @@ class LoginComponent extends React.Component {
         this.props.login({
             variables: {
                 id: this.state.id
-            }
+            },
         });
     }
   render() {
-    return (
-        <div>
-           <form className="field" id="add" onSubmit={this.submitForm.bind(this) }>
-                <div className="id">
-                    <label>Password:</label>
-                    <input type="password" onChange={(e) => this.setState({ id: e.target.value })} />
-                </div>    
-                <div className="button">
-                    <button type="submit">Log in</button>
-                </div>                
-            </form>
-      </div>
-    );
-  }
+      return (
+          <div className="auth-wrapper">
+              <div className="auth-inner">
+                <form>
+                <h3>Sign In</h3>
+
+                <div className="form-group">
+                    <label>Block address</label>
+                        <input type="password" className="form-control" placeholder="Enter your block address"
+                        onChange={(e) => this.setState({ id: e.target.value })} />
+                </div>
+                <div className="form-group">
+                    <div className="custom-control custom-checkbox">
+                        <input type="checkbox" className="custom-control-input" id="customCheck1" />
+                        <label className="custom-control-label" htmlFor="customCheck1">Remember me</label>
+                    </div>
+                </div>
+
+                      <button type="submit" className="btn btn-primary btn-block" onClick={(e)=>this.submitForm(e)}>Submit</button>
+                      <p className="forgot-password text-right">
+                          Do not have an account? <Link to="/signup">Sign up</Link>
+                </p>
+              </form>
+            </div>
+          </div>
+        );
+    }
 };
 export function Login() {
     const client = useApolloClient();
-    const [user_login, { data }] = useMutation(login);
+    const [user_login, { loading }] = useMutation(login, {
+        onCompleted({ verify }) {
+            const { address } = verify;
+            localStorage.setItem(token, address);
+        },
+    });
+    if (loading) {
+        return <LoadingScreen
+            loading={true}
+            bgColor='#66ccff'
+            spinnerColor='#9ee5f8'
+            textColor='#ffffff'
+            text='Verifying' />  
+    }
     return <LoginComponent login={user_login}/>
 }
