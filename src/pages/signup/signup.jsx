@@ -53,6 +53,7 @@ export function SignUp() {
             const { newKey } = createNewAccount;
             localStorage.setItem(token, newKey);
             client.writeQuery({ query: hasLoggedIn, data: { isLoggedIn: true } });
+            history.push("/user_info");
         },
     });
     if (loading) {

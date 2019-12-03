@@ -6,7 +6,6 @@ const SUBSCRIPTION_KEY = "subscription key";
  * Generating semi-random data for mocking purposes
  */
 
-
 const data = {};
 data.lbs = [
   { value: 150 },
@@ -89,11 +88,6 @@ let rutgersLatLong = { latitude: 40.501304, longitude: -74.447367 };
 function randomSign() {
   if (Math.random() < 0.5) return -1;
   return 1;
-}
-function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 let initTimeStamp = 1573055843;
@@ -332,11 +326,15 @@ module.exports.resolvers = {
       insertValueMockPublishing(txHash);
       return txHash;
     },
-    login: (obj, args, context) => {
-        console.log(context)
-        return {
-            signed_address: "hello"
-        };
+    verify: () => {
+      return {
+        address: "Ox2"
+      };
+    },
+    createNewAccount: () => {
+      return {
+        newKey: "Ox1"
+      };
     }
   },
   Query: {
@@ -422,7 +420,7 @@ module.exports.resolvers = {
       }
       return [];
     },
-    getValuesForUnitGlobal: async (_, args) => {      
+    getValuesForUnitGlobal: async (_, args) => {
       await sleep(300);
       switch (args.unit) {
         case "lb":
