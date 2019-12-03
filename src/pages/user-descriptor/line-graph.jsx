@@ -111,13 +111,13 @@ let weightIndx; // used to determine users weight index
 let weightIndex;
 let userValue;
 for (let i = 0; i < dataArray.length; i++) {
-  if (dataArray[i].gender == "Male") {
+  if (dataArray[i].gender === "Male") {
     weightIndex = weightRange(dataArray[i], rangearraym);
-  } else if (dataArray[i].gender == "Female") {
+  } else if (dataArray[i].gender === "Female") {
     weightIndex = weightRange(dataArray[i], rangearrayf);
   }
 
-  if (i == 0) {
+  if (i === 0) {
     weightIndx = weightIndex;
     usergender = dataArray[i].gender;
     userValue = dataArray[i].weight;
@@ -128,10 +128,10 @@ for (let i = 0; i < dataArray.length; i++) {
 let pincolorm;
 let pincolorf;
 
-if (usergender == "Male") {
+if (usergender === "Male") {
   pincolorm = "#8186d5";
   pincolorf = "#00000000";
-} else if (usergender == "Female") {
+} else if (usergender === "Female") {
   pincolorm = "#ddb6c6";
   pincolorf = "#00000000";
 }

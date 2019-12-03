@@ -106,13 +106,13 @@ function processDataList(arrData) {
 
   // increment range based on gender, store user's info for pin
   for (let i = 0; i < arrData.length; i++) {
-    if (arrData[i].ugender == "Male") {
+    if (arrData[i].ugender === "Male") {
       tempindx = rangeIncrement(arrData[i], rangearraym);
-    } else if (arrData[i].ugender == "Female") {
+    } else if (arrData[i].ugender === "Female") {
       tempindx = rangeIncrement(arrData[i], rangearrayf);
     }
 
-    if (i == 0) {
+    if (i === 0) {
       userindx = tempindx;
       usergender = arrData[i].ugender;
       u1value = arrData[i].uvalue;
@@ -139,10 +139,10 @@ function processDataList(arrData) {
   // Determine color (white v. transparent)
   let pincolorm;
   let pincolorf;
-  if (usergender == "Male") {
+  if (usergender === "Male") {
     pincolorm = "white";
     pincolorf = "#00000000";
-  } else if (usergender == "Female") {
+  } else if (usergender === "Female") {
     pincolorm = "#00000000";
     pincolorf = "white";
   }
@@ -169,7 +169,7 @@ export class WeightRangeChart extends React.Component {
           },
           toolbox: {
             feature: {
-              saveAsImage: {title: '\n\nSave'}
+              saveAsImage: { title: "\n\nSave" }
             }
           },
           backgroundColor: "transparent",
@@ -202,7 +202,7 @@ export class WeightRangeChart extends React.Component {
               markPoint: {
                 symbol: "pin",
                 symbolSize: 30,
-                label: {show: false},
+                label: { show: false },
                 itemStyle: { color: processDataList(arrData).pincolorm },
                 data: [
                   {
@@ -222,7 +222,7 @@ export class WeightRangeChart extends React.Component {
               markPoint: {
                 symbol: "pin",
                 symbolSize: 30,
-                label: {show: false},
+                label: { show: false },
                 itemStyle: { color: processDataList(arrData).pincolorf },
                 data: [
                   {
