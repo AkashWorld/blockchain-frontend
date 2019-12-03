@@ -1,9 +1,9 @@
 import React from "react";
-import { Login} from "./pages/login/login";
-import { HashRouter, Switch, Route } from "react-router-dom";
+import { Login } from "./pages/login/login";
+import { HashRouter, Switch, Route, Redirect, BrowserRouter } from "react-router-dom";
 import { DataEntryForm } from "./pages/data-entry/data-entry";
 import { UserAnalyticsPage } from "./pages/user-descriptor/user-analytics";
-import { SignUpComponent } from "./pages/signup/signup";
+import { SignUp } from "./pages/signup/signup";
 /*import { useApolloClient } from "@apollo/react-hooks";*/
 import { hasLoggedIn } from "./queries";
 import { withApollo } from "react-apollo";
@@ -15,33 +15,15 @@ export class RouterComponent extends React.Component {
     render() {
         return (
             <div>
-                <HashRouter>
+                <BrowserRouter>
                     <Switch>
                         <Route exact path="/" component={Login} />
+                        <Route path="/signup" component={SignUp} />
                         <Route path="/dashboard" component={UserAnalyticsPage} />
                     </Switch>
-                </HashRouter>
+                </BrowserRouter>
             </div>
     );
-    /*return (
-      <HashRouter>
-            <div>
-                <Route path="/user-analytics" component={UserAnalyticsPage}></Route>
-                <Switch>
-                    <Route path="/login" component={LoginComponent} />
-              <LoginComponent/>
-            <Route path="/sign-up"></Route>
-            <Route path="/form">
-              <DataEntryForm></DataEntryForm>
-            </Route>
-                    <Route path="/global-analytics"></Route>
-            
-            <Route exact path="/">
-            </Route>
-          </Switch>
-        </div>
-      </HashRouter>
-    );*/
   }
 }
 export default withApollo(RouterComponent)

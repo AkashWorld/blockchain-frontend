@@ -1,5 +1,5 @@
 ﻿import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import "./signup.css";
 import { ApolloClient, gql } from "apollo-boost";
 import { ApolloProvider, useMutation, useApolloClient } from "@apollo/react-hooks";
@@ -38,7 +38,7 @@ export class SignUpComponent extends React.Component {
                         <button type="submit" className="btn btn-primary btn-block"
                             onClick={(e) => this.submitForm(e)}>Sign Up</button>
                         <p className="forgot-password text-right">
-                            Already registered <a href="#">sign in?</a>
+                            Already registered <a href="/">sign in?</a>
                         </p>
                     </form>
                 </div>
@@ -48,7 +48,8 @@ export class SignUpComponent extends React.Component {
 }
 export function SignUp() {
     const client = useApolloClient();
-    const [user_signup, { data,loading }] = useMutation(signup, {
+    const history = useHistory();
+    const [user_signup, { loading }] = useMutation(signup, {
         onCompleted({ createNewAccount }) {
             const { newKey } = createNewAccount;
             localStorage.setItem(token, newKey);
@@ -63,5 +64,5 @@ export function SignUp() {
             textColor='#ffffff'
             text='Creating your personal account'/>  
     }
-    return <SignUpComponent signup={user_signup} />
+    return <SignUpComponent history={history} signup={user_signup} />
 }

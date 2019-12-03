@@ -9,12 +9,13 @@ import '../../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { token } from '../../resources/token';
 import { UserAnalyticsPage } from '../user-descriptor/user-analytics';
 import LoadingScreen from 'react-loading-screen';
+import { useHistory, Redirect } from "react-router-dom";
 
 class LoginComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            id:""
+            id: ""
         };
     }
   /*async componentDidMount() {
@@ -58,7 +59,7 @@ class LoginComponent extends React.Component {
 
                       <button type="submit" className="btn btn-primary btn-block" onClick={(e)=>this.submitForm(e)}>Submit</button>
                       <p className="forgot-password text-right">
-                          Do not have an account? <Link to="/signup">Sign up</Link>
+                          Do not have an account? <a href="/signup">Sign up</a>
                 </p>
               </form>
             </div>
@@ -68,10 +69,13 @@ class LoginComponent extends React.Component {
 };
 export function Login() {
     const client = useApolloClient();
-    const [user_login, { loading }] = useMutation(login, {
+    const history = useHistory()
+    const [user_login, { loading,data }] = useMutation(login, {
         onCompleted({ verify }) {
             const { address } = verify;
+            console.log(address);
             localStorage.setItem(token, address);
+            history.push("/dashboard");
         },
     });
     if (loading) {
@@ -82,5 +86,5 @@ export function Login() {
             textColor='#ffffff'
             text='Verifying' />  
     }
-    return <LoginComponent login={user_login}/>
+    return <LoginComponent history={history} login={user_login} />
 }
