@@ -20,6 +20,7 @@ export class RouterComponent extends React.Component {
                         <Route exact path="/" component={Login} />
                         <Route path="/signup" component={SignUp} />
                         <Route path="/dashboard" component={UserAnalyticsPage} />
+                        <Route path="/user_info" component={DataEntryForm} />
                     </Switch>
                 </BrowserRouter>
             </div>

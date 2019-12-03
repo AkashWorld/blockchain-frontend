@@ -334,12 +334,12 @@ module.exports.resolvers = {
     },
         verify: (_, args)=>{
             return {
-                address: "Hello",
+                address: "Ox2",
             }
         },
         createNewAccount: (_, args) => {
             return {
-                newKey: "Hello",
+                newKey: "Ox1",
             }
         }
   },
