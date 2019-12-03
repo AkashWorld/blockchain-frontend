@@ -71,29 +71,27 @@ export class DataEntryForm extends Component {
     }
   }
   enterForm() {
-    {
-      let confirmation = prompt(
-        "Do the following look correct (Y/N)? \n Age is: " +
-          this.state.age +
-          "\n Sex is: " +
-          this.state.sex +
-          "\n Height is: " +
-          this.state.height +
-          " " +
-          this.state.hunits +
-          "\n Weight is: " +
-          this.state.weight +
-          " " +
-          this.state.wunits
-      );
-      if (confirmation === "Y" || confirmation === "y") {
-        //Store data and proceed
-      } else if (confirmation === "N" || confirmation === "n") {
-        //Allow user to change information
-      } else {
-        alert("Please enter Y for Yes or N for No");
-        this.enterForm();
-      }
+    let confirmation = prompt(
+      "Do the following look correct (Y/N)? \n Age is: " +
+        this.state.age +
+        "\n Sex is: " +
+        this.state.sex +
+        "\n Height is: " +
+        this.state.height +
+        " " +
+        this.state.hunits +
+        "\n Weight is: " +
+        this.state.weight +
+        " " +
+        this.state.wunits
+    );
+    if (confirmation === "Y" || confirmation === "y") {
+      //Store data and proceed
+    } else if (confirmation === "N" || confirmation === "n") {
+      //Allow user to change information
+    } else {
+      alert("Please enter Y for Yes or N for No");
+      this.enterForm();
     }
   }
   render() {
@@ -160,9 +158,7 @@ export class DataEntryForm extends Component {
           </span>
           <label htmlFor="Entry">
             {" "}
-            
-          Enter Weight and it&apos;s Units:
-           
+            Enter Weight and it&apos;s Units:
             <input
               className="form-control"
               type="input"

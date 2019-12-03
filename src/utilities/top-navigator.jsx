@@ -26,10 +26,6 @@ const styles = {
 };
 
 export class TopNavigator extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <div style={styles.container}>
