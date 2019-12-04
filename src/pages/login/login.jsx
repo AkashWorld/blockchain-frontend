@@ -4,6 +4,7 @@ import "./login.css";
 import Web3 from "web3";
 import gql from "graphql-tag";
 import { useQuery } from "@apollo/react-hooks";
+import { EtherAddrContext } from "../context-container";
 
 /** getSM = get Signed Message. Signed Message contains the address of the user
  * encrypted into the message. This message will be sent to graphql mutation
@@ -23,8 +24,9 @@ async function getSM() {
         account,
         "password"
       );
-      console.log(signedMessage);
-      await getEtherAddress(signedMessage);
+      let tobereturned = await getEtherAddress(signedMessage);
+      console.log(tobereturned);
+      return tobereturned;
     } catch (e) {
       console.error(e);
     }
@@ -52,7 +54,7 @@ async function getEtherAddress(signedMessage) {
   let mutation = mut.valueOf(); /**makes things work*/
 
   /**gets the data from the backend*/
-  let fetcheddata = await fetch("http://localhost:8080/graphql", {
+  let toberetunred = await fetch("http://localhost:8080/graphql", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -63,11 +65,12 @@ async function getEtherAddress(signedMessage) {
   })
     .then(r => r.json())
     .then(data => {
-      return data;
+      /**func call to set context*/
+      setContext(data.data.verify.address);
+      return data.data.verify.address;
     });
 
-  /**func call to set context*/
-  setContext(fetcheddata.data.verify.address);
+  return toberetunred;
 }
 
 function setContext(userAddress) {}
@@ -76,16 +79,20 @@ function setContext(userAddress) {}
 class ShowSignComponent extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { sign: props.sign };
+    this.state = {
+      sign: props.sign,
+      buttonFunction: props.buttonFunction
+    };
     this.handleclick = this.handleclick.bind(this);
   }
 
   async handleclick() {
-    await getSM();
+    let contextAddress = await getSM();
+    console.log(contextAddress);
+    this.state.buttonFunction(contextAddress);
   }
 
   render() {
-    //this.setState({sign:"hell"});
     return <button onClick={this.handleclick}>{this.state.sign}</button>;
   }
 }
@@ -99,13 +106,20 @@ export class LoginComponent extends React.Component {
           <p>Implement Login in this Component</p>
           <a
             className="App-link"
-            href="http://localhost:3000/#/login"
+            href="http://localhost:3000/#/"
             target="_blank"
             rel="noopener noreferrer"
           >
             Learn react
           </a>
-          <ShowSignComponent sign="Verify" />
+          <EtherAddrContext.Consumer>
+            {value => (
+              <ShowSignComponent
+                sign="Verify"
+                buttonFunction={value.setEtherContext}
+              />
+            )}
+          </EtherAddrContext.Consumer>
         </header>
       </div>
     );
