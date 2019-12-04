@@ -2,7 +2,7 @@ import React from "react";
 import "./login.css";
 import { useMutation } from "@apollo/react-hooks";
 import { login } from "../../queries";
-import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import { token } from "../../resources/token";
 import LoadingScreen from "react-loading-screen";
 import { useHistory } from "react-router-dom";
@@ -27,7 +27,7 @@ class LoginComponent extends React.Component {
       <div className="auth-wrapper">
         <div className="auth-inner">
           <form>
-            <h3>Sign In</h3>
+            <h3>Log In</h3>
 
             <div className="form-group">
               <label>Block address</label>

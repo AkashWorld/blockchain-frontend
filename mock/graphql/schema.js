@@ -33,7 +33,6 @@ type Mutation {
                 longitude: Float
                 latitude: Float
         ): String!
-        login(unsigned_address: String!): Login!
 }
 enum Trend {
         UP
@@ -72,11 +71,14 @@ type Subscription {
 extend type Query {
 	getBalance: Float!
 }
-type Login {
-    signed_address: String!
+type Verify {
+	address: String!
 }
-
-extend type Query {
-    loginM: Login!
-}`
-;
+type Create {
+	newKey: String!
+}
+extend type Mutation {
+	verify(signedMessage: String!): Verify!
+	createNewAccount(privateKey: String!): Create!
+}
+`;
