@@ -12,27 +12,29 @@ export class RouterComponent extends React.Component {
   render() {
     return (
       <HashRouter>
-        <div>
-          <Switch>
-            <Route path="/login">
-              <LoginComponent></LoginComponent>
-            </Route>
-            <Route path="/sign-up"></Route>
-            <Route path="/form">
-              <DataEntryForm></DataEntryForm>
-            </Route>
-            <Route path="/global-analytics"></Route>
-            <Route path="/user-analytics">
-              <UserAnalyticsPage></UserAnalyticsPage>
-            </Route>
-            <Route path="/">
-              <div>Try /login or another route</div>
-              <EtherAddrContext.Consumer>
-                {value => <p> {value.context} </p>}
-              </EtherAddrContext.Consumer>
-            </Route>
-          </Switch>
-        </div>
+        <EtherAddrContext.Consumer>
+          {value => (
+            <div>
+              <Switch>
+                <Route path="/login">
+                  <LoginComponent></LoginComponent>
+                </Route>
+                <Route path="/sign-up"></Route>
+                <Route path="/form">
+                  <DataEntryForm></DataEntryForm>
+                </Route>
+                <Route path="/global-analytics"></Route>
+                <Route path="/user-analytics">
+                  <UserAnalyticsPage></UserAnalyticsPage>
+                </Route>
+                <Route path="/">
+                  <div>Try /login or another route</div>
+                  <p> {value.context} </p>
+                </Route>
+              </Switch>
+            </div>
+          )}
+        </EtherAddrContext.Consumer>
       </HashRouter>
     );
   }
