@@ -60,7 +60,7 @@ export class UserAnalyticsPage extends React.Component {
         <TopNavigator></TopNavigator>
         <div style={styles.pageBg}>
           <div style={styles.cardContainer}>
-            <CardComponent title="Weight Ranges In Your Area">
+            <CardComponent title="Global Weight Ranges">
               <WeightRangeChart></WeightRangeChart>
             </CardComponent>
             <div style={styles.cardStack}>
@@ -89,7 +89,7 @@ export class UserAnalyticsPage extends React.Component {
             <CardComponent title="Recently Visited Locations">
               <DataEntryMap></DataEntryMap>
             </CardComponent>
-            <CardComponent title="Weight Ranges in your Area">
+            <CardComponent title="Global Weight Ranges">
               <WeightAreaChart></WeightAreaChart>
             </CardComponent>
           </div>
