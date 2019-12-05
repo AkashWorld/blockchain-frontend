@@ -108,13 +108,3 @@ export function Login() {
   }
   return <LoginComponent history={history} login={userLogin} />;
 }
-
-// <div className="form-group">
-//   <label>Block address</label>
-//   <input
-//     type="password"
-//     className="form-control"
-//     placeholder="Enter your block address"
-//     onChange={e => this.setState({ id: e.target.value })}
-//   />
-// </div>
