@@ -318,5 +318,11 @@ export function WeightAreaChart() {
           ]
         }}
       />
-    );
+    )
+
+    else return (
+      <div>
+        <h3>Something went really wrong</h3>
+      </div>
+      )
   }
