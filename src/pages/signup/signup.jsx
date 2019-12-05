@@ -14,6 +14,7 @@ export class SignUpComponent extends React.Component {
       id: ""
     };
   }
+
   submitForm(e) {
     e.preventDefault();
     this.props.signup({
@@ -23,6 +24,7 @@ export class SignUpComponent extends React.Component {
     });
   }
   render() {
+    const testContext = localStorage.getItem("token");
     return (
       <div className="auth-wrapper">
         <div className="auth-inner">
@@ -63,6 +65,9 @@ export function SignUp() {
       localStorage.setItem(token, newKey);
       client.writeQuery({ query: hasLoggedIn, data: { isLoggedIn: true } });
       history.push("/user_info");
+    },
+    onError({ createNewAccount }) {
+      alert("Invalid Private Key or Account Already Exists");
     }
   });
   if (loading) {

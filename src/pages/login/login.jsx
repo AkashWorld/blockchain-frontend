@@ -6,6 +6,32 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { token } from "../../resources/token";
 import LoadingScreen from "react-loading-screen";
 import { useHistory } from "react-router-dom";
+import Web3 from "web3";
+
+/** getSM = get Signed Message. Signed Message contains the address of the user
+ * encrypted into the message. This message will be sent to graphql mutation
+ * verify, where the address will be obtained and returned to this page. This
+ * will be processed by setContext. This is an async function, any calls to this
+ * has to have async/await or use .then
+ */
+async function getSM() {
+  if (window.ethereum) {
+    window.Web3 = new Web3(window.ethereum);
+    try {
+      await window.ethereum.enable();
+      let accounts = await window.Web3.eth.getAccounts();
+      let account = accounts[0];
+      let signedMessage = await window.Web3.eth.personal.sign(
+        "Auth",
+        account,
+        "password"
+      );
+      return signedMessage;
+    } catch (e) {
+      console.error(e);
+    }
+  }
+}
 
 class LoginComponent extends React.Component {
   constructor(props) {
@@ -14,11 +40,12 @@ class LoginComponent extends React.Component {
       id: ""
     };
   }
-  submitForm(e) {
+  async submitForm(e) {
     e.preventDefault();
+    let signedMessage = await getSM();
     this.props.login({
       variables: {
-        id: this.state.id
+        id: signedMessage
       }
     });
   }
@@ -28,16 +55,13 @@ class LoginComponent extends React.Component {
         <div className="auth-inner">
           <form>
             <h3>Log In</h3>
-
-            <div className="form-group">
-              <label>Block address</label>
-              <input
-                type="password"
-                className="form-control"
-                placeholder="Enter your block address"
-                onChange={e => this.setState({ id: e.target.value })}
-              />
-            </div>
+            <button
+              type="submit"
+              className="btn btn-primary btn-block"
+              onClick={e => this.submitForm(e)}
+            >
+              Login
+            </button>
             <div className="form-group">
               <div className="custom-control custom-checkbox">
                 <input
@@ -50,14 +74,6 @@ class LoginComponent extends React.Component {
                 </label>
               </div>
             </div>
-
-            <button
-              type="submit"
-              className="btn btn-primary btn-block"
-              onClick={e => this.submitForm(e)}
-            >
-              Submit
-            </button>
             <p className="forgot-password text-right">
               Do not have an account? <a href="/signup">Sign up</a>
             </p>
@@ -72,9 +88,11 @@ export function Login() {
   const [userLogin, { loading }] = useMutation(login, {
     onCompleted({ verify }) {
       const { address } = verify;
-      console.log(address);
       localStorage.setItem(token, address);
       history.push("/dashboard");
+    },
+    onError({ verify }) {
+      window.alert("The Account Does Not Exist");
     }
   });
   if (loading) {
@@ -90,3 +108,13 @@ export function Login() {
   }
   return <LoginComponent history={history} login={userLogin} />;
 }
+
+// <div className="form-group">
+//   <label>Block address</label>
+//   <input
+//     type="password"
+//     className="form-control"
+//     placeholder="Enter your block address"
+//     onChange={e => this.setState({ id: e.target.value })}
+//   />
+// </div>

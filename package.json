@@ -24,7 +24,7 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
     "subscriptions-transport-ws": "^0.9.16",
-    "web3": "^1.2.2"
+    "web3": "^1.2.4"
   },
   "scripts": {
     "start": "concurrently \"node mock/index.js\" \"npm run start:react\"",
