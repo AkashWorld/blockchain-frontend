@@ -24,7 +24,6 @@ export class SignUpComponent extends React.Component {
     });
   }
   render() {
-    const testContext = localStorage.getItem("token");
     return (
       <div className="auth-wrapper">
         <div className="auth-inner">
