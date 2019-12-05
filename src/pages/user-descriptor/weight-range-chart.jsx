@@ -171,10 +171,10 @@ function processDataList(arrData) {
   let userGender = "Male"; //need from backend
   let pinColorMale;
   let pinColorFemale;
-  if (userGender == "Male") {
+  if (userGender === "Male") {
     pinColorMale = "white";
     pinColorFemale = "#00000000";
-  } else if (userGender == "Female") {
+  } else if (userGender === "Female") {
     pinColorMale = "#00000000";
     pinColorFemale = "white";
   }
@@ -254,7 +254,7 @@ export function WeightRangeChart(){
               data: [
                 {
                   name: "You",
-                  value: poundsUserResult,
+                  value: poundsUserResult.result,
                   xAxis: rangeFinder(poundsUserResult.result),
                   yAxis: 0
                 }
@@ -274,7 +274,7 @@ export function WeightRangeChart(){
               data: [
                 {
                   name: "You",
-                  value: poundsUserResult,
+                  value: poundsUserResult.result,
                   xAxis: rangeFinder(poundsUserResult.result),
                   yAxis: 0
                 }
