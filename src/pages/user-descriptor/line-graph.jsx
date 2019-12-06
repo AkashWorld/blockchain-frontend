@@ -1,150 +1,151 @@
 import React from "react";
 import ReactEcharts from "echarts-for-react";
+import { gql } from "apollo-boost";
+import { useQuery } from "@apollo/react-hooks";
+import "./user-descriptor.css";
 
-// Expected Object
-function BossObject(Unit, Weight, Latitude, Longitude, Time, Gender) {
-  this.unit = Unit;
-  this.weight = Weight;
-  this.latitude = Latitude;
-  this.longitude = Longitude;
-  this.time = Time;
-  this.gender = Gender;
-}
+const LG_DATA = gql`
+  {
+    getPaginatedDescriptorsGlobal(unit: "lb", start: 0, count: 400) {
+      value
+      unixTimestamp
+    }
+  }
+`;
 
-// object array
-let dataArray = [];
+function DATA_FUNCTION() {
+  const { loading, error, data } = useQuery(LG_DATA);
 
-// Generated random weight and time.
-for (let i = 0; i < 100; i++) {
-  let Unit = "lb";
-  let Latitude = 0;
-  let Longitude = 0;
-  let startDate = new Date(2012, 0, 1);
-  let endDate = new Date();
-  let randomTime = new Date(
-    startDate.getTime() +
-      Math.random() * (endDate.getTime() - startDate.getTime())
-  );
-  let maxWeight = 350;
-  let minWeight = 40;
-  let Weight =
-    Math.floor(Math.random() * (maxWeight - minWeight + 1)) + minWeight; // newValue is the weight in this case.
+  let status = { isLoading: false, isError: false, isData: false };
 
-  // let date = randomTime.getDate();
-  let month = randomTime.getMonth(); //Be careful! January is 0 not 1
-  let year = randomTime.getFullYear();
-  let randGen = Math.floor(Math.random() * 2);
-  let dateString = month + 1 + "-" + year;
-  let newGender = "";
-  if (randGen) {
-    newGender = "Male";
-  } else {
-    newGender = "Female";
+  if (loading) {
+    status.isLoading = true;
+    return { status, result: "Loading..." };
   }
 
-  let newWTobject = new BossObject(
-    Unit,
-    Weight,
-    Latitude,
-    Longitude,
-    dateString,
-    newGender
-  );
+  if (error) {
+    status.isError = true;
+    return { status, result: `Error! ${error.message}` };
+  }
 
-  dataArray.push(newWTobject);
+  status.isData = true;
+  return { status, result: data.getPaginatedDescriptorsGlobal };
 }
 
-let sortedTimeArray = [];
-for (let j = 0; j < dataArray.length; j++) {
-  sortedTimeArray[j] = dataArray[j].time;
+function GENDER_OBJECT(Gender) {
+  this.gender = Gender;
 }
-sortedTimeArray.sort(function(a, b) {
-  a = a.split("-");
-  b = b.split("-");
-  return new Date(a[1], a[0], 1) - new Date(b[1], b[0], 1);
-});
+// gender array
 
-// dataArray.sort(compareValues('weight'));
-let weightArray = [];
-for (let j = 0; j < dataArray.length; j++) {
-  weightArray[j] = dataArray[j].weight;
-}
-
-// temporary dataset used to populate graph
-let rangeLength = 11;
-let rangearraym = new Array(rangeLength);
-rangearraym.fill(0);
-let rangearrayf = new Array(rangeLength);
-rangearrayf.fill(0);
-
-// finding range of users weight
-function weightRange(WTObj, weightRangeArray) {
+function weightRange(value, weightRangeArray) {
   let indx;
-  if (WTObj.weight >= 40 && WTObj.weight <= 50) {
+  if (value >= 40 && value <= 50) {
     weightRangeArray[0] = weightRangeArray[0] + 1;
-    indx = WTObj.weight;
-  } else if (WTObj.weight >= 51 && WTObj.weight <= 100) {
+    indx = value;
+  } else if (value >= 51 && value <= 100) {
     weightRangeArray[1] = weightRangeArray[1] + 1;
-    indx = WTObj.weight;
-  } else if (WTObj.weight >= 101 && WTObj.weight <= 150) {
+    indx = value;
+  } else if (value >= 101 && value <= 150) {
     weightRangeArray[2] = weightRangeArray[2] + 1;
-    indx = WTObj.weight;
-  } else if (WTObj.weight >= 151 && WTObj.weight <= 200) {
+    indx = value;
+  } else if (value >= 151 && value <= 200) {
     weightRangeArray[3] = weightRangeArray[3] + 1;
-    indx = WTObj.weight;
-  } else if (WTObj.weight >= 201 && WTObj.weight <= 300) {
+    indx = value;
+  } else if (value >= 201 && value <= 300) {
     weightRangeArray[4] = weightRangeArray[4] + 1;
-    indx = WTObj.weight;
-  } else if (WTObj.weight >= 301) {
+    indx = value;
+  } else if (value >= 301) {
     weightRangeArray[5] = weightRangeArray[5] + 1;
-    indx = WTObj.weight;
+    indx = value;
   } else {
     indx = 0;
   }
   return indx;
 }
 
-let usergender;
-let weightIndx; // used to determine users weight index
+export function LineGraph() {
+  let obj = DATA_FUNCTION();
 
-// record user info
-let weightIndex;
-let userValue;
-for (let i = 0; i < dataArray.length; i++) {
-  if (dataArray[i].gender === "Male") {
-    weightIndex = weightRange(dataArray[i], rangearraym);
-  } else if (dataArray[i].gender === "Female") {
-    weightIndex = weightRange(dataArray[i], rangearrayf);
-  }
+  if (obj.status.isLoading)
+    return (
+      <div>
+        <h3>Loading...</h3>
+        <div className="loader"></div>
+      </div>
+    );
 
-  if (i === 0) {
-    weightIndx = weightIndex;
-    usergender = dataArray[i].gender;
-    userValue = dataArray[i].weight;
-  }
-}
+  if (obj.status.isError)
+    return (
+      <div>
+        <h3>Oops! Something went wrong</h3>
+      </div>
+    );
+  else if (obj.status.isData === true) {
+    let timelist = [];
+    let count = 4;
+    let weightArray = [];
+    let GENDER_ARRAY = [];
+    // Generated gender randomly
+    for (let i = 0; i < obj.result.length; i++) {
+      let randGen = Math.floor(Math.random() * 2);
+      let newGender = "";
+      if (randGen) {
+        newGender = "Male";
+      } else {
+        newGender = "Female";
+      }
+      let newWTobject = new GENDER_OBJECT(newGender);
+      GENDER_ARRAY.push(newWTobject);
+    }
+    for (let i = 0; i < obj.result.length; i++) {
+      let unixTime = obj.result[i].unixTimestamp;
+      let startDate = new Date(unixTime);
+      let month = startDate.getMonth();
+      let year = startDate.getFullYear();
+      let dateString = month + 1 + "-" + year;
+      timelist[i] = dateString;
+      count = count + 4;
+    }
+    for (let j = 0; j < obj.result.length; j++) {
+      weightArray[j] = obj.result[j].value;
+    }
+    let usergender;
+    let weightIndx; // used to determine users weight index
+    let rangeLength = 11;
+    let rangeArrayMale = new Array(rangeLength);
+    rangeArrayMale.fill(0);
+    let rangearrayf = new Array(rangeLength);
+    rangearrayf.fill(0);
 
-// Determine visibility of pin based on gender
-let pincolorm;
-let pincolorf;
+    let weightIndex;
+    let userValue;
+    let currentValue = obj.result.length - 1;
+    for (let i = 0; i < obj.result.length - 1; i++) {
+      if (GENDER_ARRAY[i].gender === "Male") {
+        weightIndex = weightRange(weightArray[i], rangeArrayMale);
+      } else if (GENDER_ARRAY[i].gender === "Female") {
+        weightIndex = weightRange(weightArray[i], rangearrayf);
+      }
 
-if (usergender === "Male") {
-  pincolorm = "#8186d5";
-  pincolorf = "#00000000";
-} else if (usergender === "Female") {
-  pincolorm = "#ddb6c6";
-  pincolorf = "#00000000";
-}
+      if (i === currentValue - 1) {
+        weightIndx = weightIndex;
+        usergender = GENDER_ARRAY[0].gender;
+        userValue = obj.result[i + 1].value;
+        console.log(userValue);
+      }
+    }
 
-// for (let i = 0; i < 100; i++) {console.log(timeArray[i])} // ouput sorted time in an array
+    // Determine visibility of pin based on gender
+    let pincolorm;
+    let pincolorf;
 
-export class LineGraph extends React.Component {
-  constructor(props) {
-    super(props);
-    this.containerRef = React.createRef();
-  }
-
-  render() {
+    if (usergender === "Male") {
+      pincolorm = "#8186d5";
+      pincolorf = "#00000000";
+    } else if (usergender === "Female") {
+      pincolorm = "#ddb6c6";
+      pincolorf = "#00000000";
+    }
     return (
       <ReactEcharts
         style={{ height: "350px", width: "750px" }}
@@ -154,12 +155,17 @@ export class LineGraph extends React.Component {
             name: "Time",
             nameGap: 30,
             nameTextStyle: { fontWeight: "bold" },
-            data: sortedTimeArray
+            data: timelist
           },
           title: {
             left: "center",
-            text: "Weight Analytics",
-            textStyle: { color: "white" }
+            text: "Current User Weight:" + userValue,
+            textStyle: { color: "#151965" }
+          },
+          toolbox: {
+            feature: {
+              saveAsImage: { title: "\n\nSave" }
+            }
           },
           series: [
             {
@@ -168,7 +174,12 @@ export class LineGraph extends React.Component {
                 symbol: "pin",
                 itemStyle: { color: pincolorm },
                 data: [
-                  { name: "You", value: userValue, xAxis: 0, yAxis: weightIndx }
+                  {
+                    name: "You",
+                    value: userValue,
+                    xAxis: timelist[currentValue],
+                    yAxis: weightIndx
+                  }
                 ]
               }
             },
@@ -178,7 +189,12 @@ export class LineGraph extends React.Component {
                 symbol: "pin",
                 itemStyle: { color: pincolorf },
                 data: [
-                  { name: "You", value: userValue, xAxis: 0, yAxis: weightIndx }
+                  {
+                    name: "You",
+                    value: userValue,
+                    xAxis: timelist[currentValue],
+                    yAxis: weightIndx
+                  }
                 ]
               }
             },
@@ -188,15 +204,10 @@ export class LineGraph extends React.Component {
               data: weightArray
             }
           ],
-          toolbox: {
-            feature: {
-              saveAsImage: { title: "\n\nSave" }
-            }
-          },
           tooltip: {
             trigger: "axis",
-            data: dataArray.map(function(BossObject) {
-              return BossObject[0];
+            data: GENDER_ARRAY.map(function(GENDER_OBJECT) {
+              return GENDER_OBJECT[0];
             })
           },
           yAxis: {
@@ -274,5 +285,10 @@ export class LineGraph extends React.Component {
         }}
       />
     );
-  }
+  } else
+    return (
+      <div>
+        <h3> System Error: Sorry for Inconvenience</h3>
+      </div>
+    );
 }

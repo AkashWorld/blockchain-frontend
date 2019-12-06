@@ -275,7 +275,9 @@ dataGlobal.bpm = [
   { value: 78.9 },
   { value: 70 }
 ];
+
 initTimeStamp = 1573055843;
+let count = 4;
 dataGlobal.lbs.forEach(val => {
   val.unit = "lb";
   const latLongRand = Math.random() * 0.05;
@@ -284,7 +286,10 @@ dataGlobal.lbs.forEach(val => {
   val.latitude = rutgersLatLong.latitude;
   val.longitude = rutgersLatLong.longitude;
   initTimeStamp += Math.floor(Math.random() * 1000);
-  val.unixTimestamp = initTimeStamp;
+  let date = new Date(initTimeStamp + 604000000 * count)
+  let U_TIME = date.getTime() ; 
+  val.unixTimestamp = U_TIME;
+  count += 4 ;
 });
 initTimeStamp = 1573055843;
 dataGlobal.inch.forEach(val => {
