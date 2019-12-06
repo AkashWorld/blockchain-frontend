@@ -4,7 +4,7 @@ type Descriptor {
 	value: Float!
 	longitude: Float!
 	latitude: Float!
-	unixTimestamp: Int!
+	unixTimestamp: Float!
 }
 
 type Query {

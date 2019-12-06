@@ -1,64 +1,63 @@
 import React from "react";
 import ReactEcharts from "echarts-for-react"; // or var ReactEcharts = require('echarts-for-react');
-import { gql } from 'apollo-boost';
-import { useQuery } from '@apollo/react-hooks';
+import { gql } from "apollo-boost";
+import { useQuery } from "@apollo/react-hooks";
 import "./user-descriptor.css";
- 
+
 //GraphQL ----------------------------------------------------------------
 const GLOBAL_POUNDS_QUERY = gql`
-      {
-        getPaginatedDescriptorsGlobal(unit: "lb", start: 0, count: 1000)
-        {value}
-      }
-      `; // also need gender, easy if added in descriptor
- 
+  {
+    getPaginatedDescriptorsGlobal(unit: "lb", start: 0, count: 1000) {
+      value
+    }
+  }
+`; // also need gender, easy if added in descriptor
+
 function GET_GLOBAL_POUNDS() {
   const { loading, error, data } = useQuery(GLOBAL_POUNDS_QUERY);
- 
-  let status = {isLoading: false, isError: false, isData: false};
- 
+
+  let status = { isLoading: false, isError: false, isData: false };
+
   if (loading) {
     status.isLoading = true;
-    return {status, result: 'Loading...'};
+    return { status, result: "Loading..." };
   }
- 
+
   if (error) {
     status.isError = true;
-    return {status, result: `Error! ${error.message}`};
+    return { status, result: `Error! ${error.message}` };
   }
- 
+
   status.isData = true;
-  return {status, result: data.getPaginatedDescriptorsGlobal}
-  ;
+  return { status, result: data.getPaginatedDescriptorsGlobal };
 }
- 
+
 const USER_POUNDS_QUERY = gql`
-      {
-        getLatestUnitValue(unit: "lb")
-      }
-      `; // also need gender
- 
+  {
+    getLatestUnitValue(unit: "lb")
+  }
+`; // also need gender
+
 function GET_USER_POUNDS() {
   const { loading, error, data } = useQuery(USER_POUNDS_QUERY);
- 
-  let status = {isLoading: false, isError: false, isData: false};
- 
+
+  let status = { isLoading: false, isError: false, isData: false };
+
   if (loading) {
     status.isLoading = true;
-    return {status, result: 'Loading...'};
+    return { status, result: "Loading..." };
   }
- 
+
   if (error) {
     status.isError = true;
-    return {status, result: `Error! ${error.message}`};
+    return { status, result: `Error! ${error.message}` };
   }
- 
+
   status.isData = true;
-  return {status, result: data.getLatestUnitValue}
-  ;
+  return { status, result: data.getLatestUnitValue };
 }
 //------------------------------------------------------------------------------
- 
+
 // Increment range and record updated index
 function rangeIncrement(value, rangeArray) {
   let indx;
@@ -103,7 +102,7 @@ function rangeIncrement(value, rangeArray) {
   }
   return indx;
 }
- 
+
 function rangeFinder(value) {
   let indx;
   if (value >= 61 && value <= 80) {
@@ -135,7 +134,7 @@ function rangeFinder(value) {
   }
   return indx;
 }
- 
+
 function processDataList(arrData) {
   // Range arrays (m & f) to built dataset
   let rangeLength = 12;
@@ -143,13 +142,13 @@ function processDataList(arrData) {
   rangeArrayMale.fill(0);
   let rangeArrayFemale = new Array(rangeLength);
   rangeArrayFemale.fill(0);
- 
+
   // increment range based on gender, store user's info for pin
   for (let i = 0; i < arrData.length; i++) {
-      rangeIncrement(arrData[i].value, rangeArrayMale);
-      rangeIncrement(arrData[i].value, rangeArrayFemale);
+    rangeIncrement(arrData[i].value, rangeArrayMale);
+    rangeIncrement(arrData[i].value, rangeArrayFemale);
   }
- 
+
   // Dataset used to build graph
   let arrayData = [
     ["Range", "Male", "Female"],
@@ -166,7 +165,7 @@ function processDataList(arrData) {
     ["261-280", rangeArrayMale[10], rangeArrayFemale[10]],
     ["281-300", rangeArrayMale[11], rangeArrayFemale[11]]
   ];
- 
+
   // Determine color based on gender (white v. transparent)
   let userGender = "Male"; //need from backend
   let pinColorMale;
@@ -178,7 +177,7 @@ function processDataList(arrData) {
     pinColorMale = "#00000000";
     pinColorFemale = "white";
   }
- 
+
   function getCol(matrix, col) {
     let column = [];
     for (let i = 0; i < matrix.length; i++) {
@@ -186,11 +185,11 @@ function processDataList(arrData) {
     }
     return column;
   }
- 
+
   let ranges = getCol(arrayData, 0);
   let maleWeight = getCol(arrayData, 1);
   let femaleWeight = getCol(arrayData, 2);
- 
+
   return {
     dataset: arrayData,
     pinColorMale,
@@ -200,25 +199,25 @@ function processDataList(arrData) {
     femaleWeight
   };
 }
- 
+
 export function WeightAreaChart() {
-  
   let poundsGlobalResult = GET_GLOBAL_POUNDS();
   let poundsUserResult = GET_USER_POUNDS();
- 
-  if (poundsGlobalResult.status.isLoading || poundsUserResult.status.isLoading) return (
-    <div>
-      <h3>Loading...</h3>
-      <div className="loader"></div>
-    </div>
-    )
- 
-  if (poundsGlobalResult.status.isError || poundsUserResult.status.isError) return (
-    <div>
-    <h3>Something went wrong</h3>
-    </div>
-    )
- 
+
+  if (poundsGlobalResult.status.isLoading || poundsUserResult.status.isLoading)
+    return (
+      <div>
+        <h3>Loading...</h3>
+        <div className="loader"></div>
+      </div>
+    );
+
+  if (poundsGlobalResult.status.isError || poundsUserResult.status.isError)
+    return (
+      <div>
+        <h3>Something went wrong</h3>
+      </div>
+    );
   else if (poundsGlobalResult.status.isData && poundsUserResult.status.isData)
     return (
       <ReactEcharts
@@ -238,7 +237,7 @@ export function WeightAreaChart() {
           },
           toolbox: {
             feature: {
-              saveAsImage: {title: '\n\nSave'}
+              saveAsImage: { title: "\n\nSave" }
             }
           },
           grid: {
@@ -258,7 +257,7 @@ export function WeightAreaChart() {
               data: processDataList(poundsGlobalResult.result).ranges.slice(1)
             }
           ],
- 
+
           yAxis: [
             {
               name: "Count",
@@ -272,12 +271,16 @@ export function WeightAreaChart() {
               type: "line",
               stack: "total",
               areaStyle: {},
-              data: processDataList(poundsGlobalResult.result).maleWeight.slice(1),
+              data: processDataList(poundsGlobalResult.result).maleWeight.slice(
+                1
+              ),
               markPoint: {
                 symbol: "pin",
                 symbolSize: 30,
-                label: {show: false},
-                itemStyle: { color: processDataList(poundsGlobalResult.result).pinColorMale },
+                label: { show: false },
+                itemStyle: {
+                  color: processDataList(poundsGlobalResult.result).pinColorMale
+                },
                 data: [
                   {
                     name: "You",
@@ -299,12 +302,17 @@ export function WeightAreaChart() {
                 }
               },
               areaStyle: { normal: {} },
-              data: processDataList(poundsGlobalResult.result).femaleWeight.slice(1),
+              data: processDataList(
+                poundsGlobalResult.result
+              ).femaleWeight.slice(1),
               markPoint: {
                 symbol: "pin",
                 symbolSize: 30,
-                label: {show: false},
-                itemStyle: { color: processDataList(poundsGlobalResult.result).pinColorFemale},
+                label: { show: false },
+                itemStyle: {
+                  color: processDataList(poundsGlobalResult.result)
+                    .pinColorFemale
+                },
                 data: [
                   {
                     name: "You",
@@ -318,11 +326,11 @@ export function WeightAreaChart() {
           ]
         }}
       />
-    )
-
-    else return (
+    );
+  else
+    return (
       <div>
         <h3>Something went really wrong</h3>
       </div>
-      )
-  }
+    );
+}
