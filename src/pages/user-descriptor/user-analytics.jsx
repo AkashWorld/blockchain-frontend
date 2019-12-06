@@ -8,6 +8,7 @@ import { WeightChangeComponent } from "./weight-change-card";
 import { EtheriumBalanceComponent } from "./etherium-card";
 import { LineGraph } from "./line-graph";
 import { WeightAreaChart } from "./weight-area-chart";
+import { BPMChart } from "./bpm-chart";
 
 const styles = {
   /**
@@ -91,6 +92,9 @@ export class UserAnalyticsPage extends React.Component {
             </CardComponent>
             <CardComponent title="Global Weight Ranges">
               <WeightAreaChart></WeightAreaChart>
+            </CardComponent>
+            <CardComponent title="Resting Heart Rate Measurements (bpm)">
+              <BPMChart></BPMChart>
             </CardComponent>
           </div>
         </div>
