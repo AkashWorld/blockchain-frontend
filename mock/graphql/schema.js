@@ -4,7 +4,9 @@ type Descriptor {
 	value: Float!
 	longitude: Float!
 	latitude: Float!
-	unixTimestamp: Int!
+        unixTimestamp: Int!
+        gender: String!
+        dob: Float!
 }
 
 type Query {
@@ -32,6 +34,8 @@ type Mutation {
                 value: Float!
                 longitude: Float
                 latitude: Float
+                gender: String!
+                dob: Float!
         ): String!
 }
 enum Trend {

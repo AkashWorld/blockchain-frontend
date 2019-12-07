@@ -90,6 +90,10 @@ function randomSign() {
   if (Math.random() < 0.5) return -1;
   return 1;
 }
+function randomGender() {
+  if (Math.random() < 0.5) return "male";
+  return "female";
+}
 function getRandomInt(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -106,6 +110,8 @@ data.lbs.forEach(val => {
   val.longitude = rutgersLatLong.longitude;
   initTimeStamp += Math.floor(Math.random() * 1000);
   val.unixTimestamp = initTimeStamp;
+  val.gender = randomGender();
+  val.dob = Math.round(Math.random() *10 + 1990);
 });
 initTimeStamp = 1573055843;
 data.inch.forEach(val => {
@@ -117,6 +123,8 @@ data.inch.forEach(val => {
   val.longitude = rutgersLatLong.longitude;
   initTimeStamp += Math.floor(Math.random() * 1000);
   val.unixTimestamp = initTimeStamp;
+  val.gender = randomGender();
+  val.dob = Math.round(Math.random() *10 + 1990);
 });
 initTimeStamp = 1573055843;
 data.bpm.forEach(val => {
@@ -128,6 +136,8 @@ data.bpm.forEach(val => {
   val.longitude = rutgersLatLong.longitude;
   initTimeStamp += Math.floor(Math.random() * 1000);
   val.unixTimestamp = initTimeStamp;
+  val.gender = randomGender();
+  val.dob = Math.round(Math.random() *10 + 1990);
 });
 
 const dataGlobal = {};
@@ -285,6 +295,8 @@ dataGlobal.lbs.forEach(val => {
   val.longitude = rutgersLatLong.longitude;
   initTimeStamp += Math.floor(Math.random() * 1000);
   val.unixTimestamp = initTimeStamp;
+  val.gender = randomGender();
+  val.dob = Math.round(Math.random() *10 + 1990);
 });
 initTimeStamp = 1573055843;
 dataGlobal.inch.forEach(val => {
@@ -296,6 +308,8 @@ dataGlobal.inch.forEach(val => {
   val.longitude = rutgersLatLong.longitude;
   initTimeStamp += Math.floor(Math.random() * 1000);
   val.unixTimestamp = initTimeStamp;
+  val.gender = randomGender();
+  val.dob = Math.round(Math.random() *10 + 1990);
 });
 initTimeStamp = 1573055843;
 dataGlobal.bpm.forEach(val => {
@@ -307,6 +321,8 @@ dataGlobal.bpm.forEach(val => {
   val.longitude = rutgersLatLong.longitude;
   initTimeStamp += Math.floor(Math.random() * 1000);
   val.unixTimestamp = initTimeStamp;
+  val.gender = randomGender();
+  val.dob = Math.round(Math.random() *10 + 1990);
 });
 
 /**
