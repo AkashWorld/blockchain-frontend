@@ -4,7 +4,7 @@ import "./index.css";
 import { RouterComponent } from "./router";
 import * as serviceWorker from "./serviceWorker";
 import ApolloClient from "apollo-boost";
-import { ApolloProvider } from "@apollo/react-hooks";
+import { ApolloContextProvider } from "./apollo-context-provider";
 
 /**URL for the backend server, this changes from 10000 for normal
  * development to 8080 for production (will change as we change to a real backend
@@ -24,9 +24,9 @@ console.log(`Listening to address ${remoteUrl}/graphql for GraphQL`);
 const client = new ApolloClient({ uri: `${remoteUrl}/graphql` });
 
 ReactDOM.render(
-  <ApolloProvider client={client}>
+  <ApolloContextProvider client={client}>
     <RouterComponent />
-  </ApolloProvider>,
+  </ApolloContextProvider>,
   document.getElementById("root")
 );
 
