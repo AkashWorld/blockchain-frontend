@@ -6,7 +6,6 @@ const SUBSCRIPTION_KEY = "subscription key";
  * Generating semi-random data for mocking purposes
  */
 
-
 const data = {};
 data.lbs = [
   { value: 150 },
@@ -89,11 +88,6 @@ let rutgersLatLong = { latitude: 40.501304, longitude: -74.447367 };
 function randomSign() {
   if (Math.random() < 0.5) return -1;
   return 1;
-}
-function getRandomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 let initTimeStamp = 1573055843;
@@ -421,7 +415,7 @@ module.exports.resolvers = {
       }
       return [];
     },
-    getValuesForUnitGlobal: async (_, args) => {      
+    getValuesForUnitGlobal: async (_, args) => {
       await sleep(300);
       switch (args.unit) {
         case "lb":
@@ -450,6 +444,74 @@ module.exports.resolvers = {
         value: 189,
         trend
       };
+    },
+    getAverageForUnit: (_, args) => {
+      if (args.unit == "lb") {
+        return 100 + Math.random() * 100;
+      } else if (args.unit == "bpm") {
+        return 50 + Math.random() * 50;
+      }
+      return null;
+    },
+    getWebsiteSuggestions: (_, args) => {
+      if (args.unitName == "weight") {
+        /**They will be all different in the real backend */
+        return [
+          {
+            title: "How to Lose Weight Fast: 3 Simple Steps, Based on Science",
+            link:
+              "https://www.healthline.com/nutrition/how-to-lose-weight-as-fast-as-possible"
+          },
+          {
+            title: "How to Lose Weight Fast: 3 Simple Steps, Based on Science",
+            link:
+              "https://www.healthline.com/nutrition/how-to-lose-weight-as-fast-as-possible"
+          },
+          {
+            title: "How to Lose Weight Fast: 3 Simple Steps, Based on Science",
+            link:
+              "https://www.healthline.com/nutrition/how-to-lose-weight-as-fast-as-possible"
+          },
+          {
+            title: "How to Lose Weight Fast: 3 Simple Steps, Based on Science",
+            link:
+              "https://www.healthline.com/nutrition/how-to-lose-weight-as-fast-as-possible"
+          },
+          {
+            title: "How to Lose Weight Fast: 3 Simple Steps, Based on Science",
+            link:
+              "https://www.healthline.com/nutrition/how-to-lose-weight-as-fast-as-possible"
+          },
+          {
+            title: "How to Lose Weight Fast: 3 Simple Steps, Based on Science",
+            link:
+              "https://www.healthline.com/nutrition/how-to-lose-weight-as-fast-as-possible"
+          }
+        ];
+      } else if (args.unitName == "bpm") {
+        return [
+          {
+            title: "How do you lower your resting heart rate?",
+            link: "https://www.medicalnewstoday.com/articles/321310.php"
+          },
+          {
+            title: "How do you lower your resting heart rate?",
+            link: "https://www.medicalnewstoday.com/articles/321310.php"
+          },
+          {
+            title: "How do you lower your resting heart rate?",
+            link: "https://www.medicalnewstoday.com/articles/321310.php"
+          },
+          {
+            title: "How do you lower your resting heart rate?",
+            link: "https://www.medicalnewstoday.com/articles/321310.php"
+          },
+          {
+            title: "How do you lower your resting heart rate?",
+            link: "https://www.medicalnewstoday.com/articles/321310.php"
+          }
+        ];
+      }
     }
   },
   Subscription: {
