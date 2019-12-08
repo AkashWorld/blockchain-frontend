@@ -80,5 +80,22 @@ type Create {
 extend type Mutation {
 	verify(signedMessage: String!): Verify!
 	createNewAccount(privateKey: String!): Create!
+enum QueryTrend {
+	gain
+	lose
+	maintain
+}
+
+type WebPage {
+	title: String!
+	link: String!
+}
+
+extend type Query {
+        #Retrieves the average for the global population for a particular unit (lb, inch)
+        getAverageForUnit(unit: String!, count: Int): Float!
+        #Example: unitName: "weight" or "bpm", amount is not required. Don't do lb since its not really search engine friendly
+        #For mock server, "weight" and "bpm"
+        getWebsiteSuggestions(unitName: String!, trend: QueryTrend!, amount: Int): [WebPage!]!
 }
 `;
