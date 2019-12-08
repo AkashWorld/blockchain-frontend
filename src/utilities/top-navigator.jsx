@@ -1,4 +1,5 @@
 import React from "react";
+import { Redirect } from "react-router-dom";
 
 const styles = {
   container: {
@@ -26,12 +27,51 @@ const styles = {
 };
 
 export class TopNavigator extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dashboard: false,
+      dataEntry: false,
+      myAccount: false
+    };
+    this.onDashboard = this.onDashboard.bind(this);
+    this.onDataEntry = this.onDataEntry.bind(this);
+    this.onAccount = this.onAccount.bind(this);
+  }
+
+  onDashboard() {
+    this.setState({
+      ...this.state,
+      dashboard: true
+    });
+  }
+  onDataEntry() {
+    this.setState({
+      ...this.state,
+      dataEntry: true
+    });
+  }
+  onAccount() {
+    this.setState({
+      ...this.state,
+      myAccount: true
+    });
+  }
+
   render() {
+    if (this.state.dashboard) {
+      return <Redirect to="user-analytics"></Redirect>;
+    } else if (this.state.dataEntry) {
+      return <Redirect to="form"></Redirect>;
+    }
     return (
       <div style={styles.container}>
-        <button style={styles.topButton}>Population</button>
-        <button style={styles.topButton}>Personal</button>
-        <button style={styles.topButton}>Insert</button>
+        <button onClick={this.onDashboard} style={styles.topButton}>
+          Dashboard
+        </button>
+        <button onClick={this.onDataEntry} style={styles.topButton}>
+          Data Entry
+        </button>
         <button style={styles.topButton}>My Account</button>
       </div>
     );
