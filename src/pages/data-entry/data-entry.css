@@ -10,9 +10,19 @@
   );
 }
 
+#display-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+}
+
 .form-container {
   display: flex;
   flex-direction: column;
+  align-items: center;
   flex-wrap: nowrap;
   height: min-content;
   width: 350px;
@@ -56,4 +66,18 @@ input[type="text"]:focus {
 
 #submit-button:hover {
   background-image: linear-gradient(#77054b 0%, #6d0645 100%);
+}
+
+.confirmation-container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  height: min-content;
+  width: 350px;
+  box-shadow: 2px 2px 6px grey;
+  margin: 15px;
+  padding: 0px 20px 0px 20px;
+  border-radius: 7px;
+  background: #ff4747;
+  color: rgb(36, 36, 36);
 }
