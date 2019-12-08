@@ -30,15 +30,15 @@ export class ConfirmationCard extends React.Component {
       .subscribe({
         next: payload => {
           payload = payload.data.insertValueSubscription;
-          if (payload.transactionHash != this.props.txHash) {
+          if (payload.transactionHash !== this.props.txHash) {
             return;
           }
           let status;
           let message;
           status = payload.responseType;
-          if (payload.responseType == "CONFIRMATION") {
+          if (payload.responseType === "CONFIRMATION") {
             message = "Transaction Confirmed " + payload.message;
-          } else if (payload.responseType == "RECIEPT") {
+          } else if (payload.responseType === "RECIEPT") {
             message = "Transaction Confirmed";
           }
           this.setState({ status, message });
@@ -48,9 +48,9 @@ export class ConfirmationCard extends React.Component {
 
   render() {
     let color = "#ff4747";
-    if (this.state.status == "RECIEPT") {
+    if (this.state.status === "RECIEPT") {
       color = "#ffe647";
-    } else if (this.state.status == "CONFIRMATION") {
+    } else if (this.state.status === "CONFIRMATION") {
       color = "#47ff8a";
     }
     return (

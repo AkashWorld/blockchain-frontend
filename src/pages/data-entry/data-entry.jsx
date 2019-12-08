@@ -171,7 +171,7 @@ function UnitList(props) {
     console.error(error);
   }
   if (data) {
-    if (data.getAllAvailableUnits.length == 0) {
+    if (data.getAllAvailableUnits.length === 0) {
       return null;
     } else if (data.getAllAvailableUnits.length > 5) {
       data.getAllAvailableUnits = data.getAllAvailableUnits.slice(0, 5);
