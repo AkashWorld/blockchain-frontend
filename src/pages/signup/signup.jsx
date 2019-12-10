@@ -65,7 +65,7 @@ export function SignUp() {
       client.writeQuery({ query: hasLoggedIn, data: { isLoggedIn: true } });
       history.push("/user_info");
     },
-    onError({ createNewAccount }) {
+    onError() {
       alert("Invalid Private Key or Account Already Exists");
     }
   });

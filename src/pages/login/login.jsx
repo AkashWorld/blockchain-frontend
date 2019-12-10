@@ -91,7 +91,7 @@ export function Login() {
       localStorage.setItem(token, address);
       history.push("/dashboard");
     },
-    onError({ verify }) {
+    onError() {
       window.alert("The Account Does Not Exist");
     }
   });
