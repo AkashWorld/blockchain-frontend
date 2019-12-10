@@ -8,7 +8,7 @@ import "./user-descriptor.css";
 
 const USER_BPM_QUERY = gql`
   {
-    getPaginatedDescriptors(unit: "bpm", start: 0, count: 1000) {
+    getPaginatedDescriptors(unit: "bpm", start: 0, count: 250) {
       value
     }
   }
@@ -29,8 +29,16 @@ function GET_USER_BPM() {
     return { status, result: `Error! ${error.message}` };
   }
 
-  status.isData = true;
-  return { status, result: data.getPaginatedDescriptors };
+  if (
+    Array.isArray(data.getPaginatedDescriptors) &&
+    data.getPaginatedDescriptors.length > 0
+  ) {
+    status.isData = true;
+    return { status, result: data.getPaginatedDescriptors };
+  }
+
+  status.isError = true;
+  return { status, result: `Could not retrieve data` };
 }
 //------------------------------------------------------------------------------
 

@@ -9,7 +9,7 @@ import { EtheriumBalanceComponent } from "./etherium-card";
 import { LineGraph } from "./line-graph";
 import { WeightAreaChart } from "./weight-area-chart";
 import { BPMChart } from "./bpm-chart";
-import { WeightSuggestions } from './weight-suggestions';
+import { WeightSuggestions } from "./weight-suggestions";
 
 const styles = {
   /**
@@ -58,51 +58,53 @@ const styles = {
 export class UserAnalyticsPage extends React.Component {
   render() {
     return (
-      <div style={styles.pageContainer}>
-        <TopNavigator></TopNavigator>
-        <div style={styles.pageBg}>
-          <div style={styles.cardContainer}>
-            <CardComponent title="Global Weight Ranges">
-              <WeightRangeChart></WeightRangeChart>
-            </CardComponent>
-            <div style={styles.cardStack}>
-              <CardComponent
-                title="Latest BMI"
-                style={{ backgroundColor: "#4ce06c" }}
-              >
-                <BMICardComponent></BMICardComponent>
+      <>
+        <TopNavigator page="dashboard"></TopNavigator>
+        <div style={styles.pageContainer}>
+          <div style={styles.pageBg}>
+            <div style={styles.cardContainer}>
+              <CardComponent title="Global Weight Ranges">
+                <WeightRangeChart></WeightRangeChart>
               </CardComponent>
+              <div style={styles.cardStack}>
+                <CardComponent
+                  title="Latest BMI"
+                  style={{ backgroundColor: "#4ce06c" }}
+                >
+                  <BMICardComponent></BMICardComponent>
+                </CardComponent>
+                <CardComponent
+                  title="Weight Change Per Week"
+                  style={{ backgroundColor: "#ff5959" }}
+                >
+                  <WeightChangeComponent></WeightChangeComponent>
+                </CardComponent>
+              </div>
               <CardComponent
-                title="Weight Change Per Week"
-                style={{ backgroundColor: "#ff5959" }}
+                title="Etherium Balance"
+                style={{ backgroundColor: "#0d3766" }}
               >
-                <WeightChangeComponent></WeightChangeComponent>
+                <EtheriumBalanceComponent></EtheriumBalanceComponent>
+              </CardComponent>
+              <CardComponent title="Weight Change Over Time">
+                <LineGraph> </LineGraph>
+              </CardComponent>
+              <CardComponent title="Recently Visited Locations">
+                <DataEntryMap></DataEntryMap>
+              </CardComponent>
+              <CardComponent title="Global Weight Ranges">
+                <WeightAreaChart></WeightAreaChart>
+              </CardComponent>
+              <CardComponent title="Resting Heart Rate Measurements (bpm)">
+                <BPMChart></BPMChart>
+              </CardComponent>
+              <CardComponent title="Weight Management Resource Suggestions">
+                <WeightSuggestions></WeightSuggestions>
               </CardComponent>
             </div>
-            <CardComponent
-              title="Etherium Balance"
-              style={{ backgroundColor: "#0d3766" }}
-            >
-              <EtheriumBalanceComponent></EtheriumBalanceComponent>
-            </CardComponent>
-            <CardComponent title="Weight Change Over Time">
-              <LineGraph> </LineGraph>
-            </CardComponent>
-            <CardComponent title="Recently Visited Locations">
-              <DataEntryMap></DataEntryMap>
-            </CardComponent>
-            <CardComponent title="Global Weight Ranges">
-              <WeightAreaChart></WeightAreaChart>
-            </CardComponent>
-            <CardComponent title="Resting Heart Rate Measurements (bpm)">
-              <BPMChart></BPMChart>
-            </CardComponent>
-            <CardComponent title="Weight Management Resource Suggestions">
-              <WeightSuggestions></WeightSuggestions>
-            </CardComponent>
           </div>
         </div>
-      </div>
+      </>
     );
   }
 }

@@ -68,6 +68,19 @@ type Subscription {
         insertValueSubscription: InsertValueResponse!
 }
 
+extend type Query {
+	getBalance: Float!
+}
+type Verify {
+	address: String!
+}
+type Create {
+	newKey: String!
+}
+extend type Mutation {
+	verify(signedMessage: String!): Verify!
+        createNewAccount(privateKey: String!): Create!
+}
 enum QueryTrend {
 	gain
 	lose

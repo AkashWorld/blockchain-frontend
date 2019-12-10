@@ -280,10 +280,10 @@ dataGlobal.lbs.forEach(val => {
   val.latitude = rutgersLatLong.latitude;
   val.longitude = rutgersLatLong.longitude;
   initTimeStamp += Math.floor(Math.random() * 1000);
-  let date = new Date(initTimeStamp + 604000000 * count)
-  let U_TIME = date.getTime() ; 
+  let date = new Date(initTimeStamp + 604000000 * count);
+  let U_TIME = date.getTime();
   val.unixTimestamp = U_TIME;
-  count += 4 ;
+  count += 4;
 });
 initTimeStamp = 1573055843;
 dataGlobal.inch.forEach(val => {
@@ -330,6 +330,16 @@ module.exports.resolvers = {
           .substring(2, 15);
       insertValueMockPublishing(txHash);
       return txHash;
+    },
+    verify: () => {
+      return {
+        address: "Ox2"
+      };
+    },
+    createNewAccount: () => {
+      return {
+        newKey: "Ox1"
+      };
     }
   },
   Query: {
@@ -441,9 +451,12 @@ module.exports.resolvers = {
       if (Math.random() > 0.5) trend = "DOWN";
       return {
         unit: "lb",
-        value: 189,
+        value: 1.56,
         trend
       };
+    },
+    getBalance: () => {
+      return Math.random() * 100;
     },
     getAverageForUnit: (_, args) => {
       if (args.unit == "lb") {

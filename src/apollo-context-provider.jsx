@@ -9,8 +9,8 @@ import { ApolloClient, InMemoryCache } from "apollo-boost";
 export const ApolloContext = React.createContext();
 
 const remoteUrl =
-  // eslint-disable-next-line no-undef
   process.env.NODE_ENV === "production" ? "localhost:8080" : "localhost:10000";
+console.log("Connecting to remote url: " + remoteUrl);
 
 /**
  * Gives access to client to function AND class component
@@ -18,9 +18,23 @@ const remoteUrl =
 export class ApolloContextProvider extends React.Component {
   constructor(props) {
     super(props);
+    this.addHeadersToClient = this.addHeadersToClient.bind(this);
     this.state = {
-      client: new ApolloClient({ link: getLink(), cache: new InMemoryCache() })
+      client: new ApolloClient({ link: getLink(), cache: new InMemoryCache() }),
+      cb: this.addHeadersToClient
     };
+  }
+
+  addHeadersToClient(headers) {
+    this.setState({
+      ...this.state,
+      client: new ApolloClient({
+        link: getLink(headers),
+        cache: new InMemoryCache()
+      })
+    });
+    console.log("Changed client to include the following header:");
+    console.log(headers);
   }
 
   render() {
@@ -45,7 +59,8 @@ function getLink(headers) {
   const wsLink = new WebSocketLink({
     uri: `ws://${remoteUrl}/subscriptions`,
     options: {
-      reconnect: true
+      reconnect: true,
+      connectionParams: headers
     }
   });
 

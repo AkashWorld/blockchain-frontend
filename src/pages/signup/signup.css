@@ -1,3 +1,24 @@
+@import url("https://fonts.googleapis.com/css?family=Fira+Sans:400,500,600,700,800");
+
+* {
+  box-sizing: border-box;
+}
+
+input[type="password"] {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #1c8ef9 !important;
+  min-height: 100vh;
+  display: flex;
+  font-weight: 400;
+  font-family: "Fira Sans", sans-serif;
+}
+
 h1,
 h2,
 h3,
@@ -64,13 +85,14 @@ html,
   padding-top: 10px;
   color: #7f7d7d;
   margin: 0;
+  margin-top: 15px;
 }
 
 .forgot-password a {
   color: #167bff;
 }
 
-button#loginButton {
+button#signUpButton {
   background: #1c8ef9;
   color: white;
   width: 100%;
@@ -81,10 +103,10 @@ button#loginButton {
   border: none;
 }
 
-button#loginButton:hover {
+button#signUpButton:hover {
   background: #167bff;
 }
 
-#remember-me-div {
-  margin-top:10px
+#privatekey {
+  margin-top: 7.5px;
 }
