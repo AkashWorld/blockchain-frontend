@@ -8,9 +8,7 @@ import { ApolloClient, InMemoryCache } from "apollo-boost";
 
 export const ApolloContext = React.createContext();
 
-const remoteUrl =
-  // eslint-disable-next-line no-undef
-  process.env.NODE_ENV === "production" ? "localhost:8080" : "localhost:10000";
+const remoteUrl = "localhost:8080";
 
 /**
  * Gives access to client to function AND class component

@@ -6,7 +6,7 @@ import "./user-descriptor.css";
 
 const LG_DATA = gql`
   {
-    getPaginatedDescriptorsGlobal(unit: "lb", start: 0, count: 400) {
+    getPaginatedDescriptors(unit: "lb", start: 0, count: 100) {
       value
       unixTimestamp
     }
@@ -29,7 +29,7 @@ function DATA_FUNCTION() {
   }
 
   status.isData = true;
-  return { status, result: data.getPaginatedDescriptorsGlobal };
+  return { status, result: data.getPaginatedDescriptors };
 }
 
 function GENDER_OBJECT(Gender) {
@@ -99,7 +99,7 @@ export function LineGraph() {
     }
     for (let i = 0; i < obj.result.length; i++) {
       let unixTime = obj.result[i].unixTimestamp;
-      let startDate = new Date(unixTime);
+      let startDate = new Date(unixTime * 1000);
       let month = startDate.getMonth();
       let year = startDate.getFullYear();
       let dateString = month + 1 + "-" + year;

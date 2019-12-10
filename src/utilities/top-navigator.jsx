@@ -72,7 +72,6 @@ export class TopNavigator extends React.Component {
         <button onClick={this.onDataEntry} style={styles.topButton}>
           Data Entry
         </button>
-        <button style={styles.topButton}>My Account</button>
       </div>
     );
   }

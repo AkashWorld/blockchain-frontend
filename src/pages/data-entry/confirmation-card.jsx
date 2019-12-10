@@ -58,8 +58,10 @@ export class ConfirmationCard extends React.Component {
         style={{ backgroundColor: color }}
         className="confirmation-container"
       >
-        <p>Transaction ID: {this.props.txHash}</p>
-        <p>{this.state.message}</p>
+        <p style={{ overflowWrap: "anywhere" }}>
+          Transaction ID: {this.props.txHash}
+        </p>
+        <p style={{ overflowWrap: "anywhere" }}>{this.state.message}</p>
       </div>
     );
   }
