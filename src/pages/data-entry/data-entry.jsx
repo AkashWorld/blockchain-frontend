@@ -117,7 +117,7 @@ export class DataEntry extends React.Component {
     });
     return (
       <div className="container">
-        <TopNavigator></TopNavigator>
+        <TopNavigator page="dataEntry"></TopNavigator>
         <div id="display-container">
           <div className="form-container">
             <h3>Data Entry Form</h3>

@@ -1,12 +1,11 @@
 import React from "react";
 import "./login.css";
-import { useMutation } from "@apollo/react-hooks";
 import { login } from "../../queries";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { token } from "../../resources/token";
 import LoadingScreen from "react-loading-screen";
-import { useHistory } from "react-router-dom";
 import Web3 from "web3";
+import { ApolloContext } from "../../apollo-context-provider";
+import { Redirect } from "react-router-dom";
+import { token } from "../../resources/token";
 
 /** getSM = get Signed Message. Signed Message contains the address of the user
  * encrypted into the message. This message will be sent to graphql mutation
@@ -26,6 +25,7 @@ async function getSM() {
         account,
         "password"
       );
+      console.log(`Signed message: ${signedMessage}`);
       return signedMessage;
     } catch (e) {
       console.error(e);
@@ -33,36 +33,60 @@ async function getSM() {
   }
 }
 
-class LoginComponent extends React.Component {
+export class LoginComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: ""
+      id: "",
+      isLoading: false,
+      redirect: false
     };
   }
   async submitForm(e) {
+    this.setState({ ...this.state, isLoading: true });
     e.preventDefault();
     let signedMessage = await getSM();
-    this.props.login({
-      variables: {
-        id: signedMessage
-      }
-    });
+    const variables = {
+      id: signedMessage
+    };
+    this.context.client
+      .mutate({ mutation: login, variables })
+      .then(({ data }) => {
+        console.log(data);
+        this.context.cb({ authorization: data.verify.address });
+        localStorage.setItem(token, data.verify.address);
+        this.setState({ ...this.state, isLoading: false, redirect: true });
+      })
+      .catch(err => console.error(err));
   }
   render() {
+    if (this.state.loading) {
+      return (
+        <LoadingScreen
+          loading={true}
+          bgColor="#66ccff"
+          spinnerColor="#9ee5f8"
+          textColor="#ffffff"
+          text="Verifying"
+        />
+      );
+    } else if (this.state.redirect) {
+      return <Redirect to="user-analytics"></Redirect>;
+    }
     return (
       <div className="auth-wrapper">
         <div className="auth-inner">
           <form>
-            <h3>Log In</h3>
+            <h1 style={{ marginLeft: "200px" }}>Log In</h1>
             <button
+              id="loginButton"
               type="submit"
               className="btn btn-primary btn-block"
               onClick={e => this.submitForm(e)}
             >
               Login
             </button>
-            <div className="form-group">
+            <div id="remember-me-div" className="form-group">
               <div className="custom-control custom-checkbox">
                 <input
                   type="checkbox"
@@ -73,38 +97,15 @@ class LoginComponent extends React.Component {
                   Remember me
                 </label>
               </div>
+              <p className="forgot-password text-right">
+                Do not have an account? <a href="/signup">Sign up</a>
+              </p>
             </div>
-            <p className="forgot-password text-right">
-              Do not have an account? <a href="/signup">Sign up</a>
-            </p>
           </form>
         </div>
       </div>
     );
   }
 }
-export function Login() {
-  const history = useHistory();
-  const [userLogin, { loading }] = useMutation(login, {
-    onCompleted({ verify }) {
-      const { address } = verify;
-      localStorage.setItem(token, address);
-      history.push("/dashboard");
-    },
-    onError() {
-      window.alert("The Account Does Not Exist");
-    }
-  });
-  if (loading) {
-    return (
-      <LoadingScreen
-        loading={true}
-        bgColor="#66ccff"
-        spinnerColor="#9ee5f8"
-        textColor="#ffffff"
-        text="Verifying"
-      />
-    );
-  }
-  return <LoginComponent history={history} login={userLogin} />;
-}
+
+LoginComponent.contextType = ApolloContext;

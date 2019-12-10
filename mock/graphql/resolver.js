@@ -451,7 +451,7 @@ module.exports.resolvers = {
       if (Math.random() > 0.5) trend = "DOWN";
       return {
         unit: "lb",
-        value: 189,
+        value: 1.56,
         trend
       };
     },

@@ -79,7 +79,8 @@ type Create {
 }
 extend type Mutation {
 	verify(signedMessage: String!): Verify!
-	createNewAccount(privateKey: String!): Create!
+        createNewAccount(privateKey: String!): Create!
+}
 enum QueryTrend {
 	gain
 	lose

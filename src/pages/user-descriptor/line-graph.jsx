@@ -28,8 +28,16 @@ function DATA_FUNCTION() {
     return { status, result: `Error! ${error.message}` };
   }
 
-  status.isData = true;
-  return { status, result: data.getPaginatedDescriptors };
+  if (
+    Array.isArray(data.getPaginatedDescriptors) &&
+    data.getPaginatedDescriptors.length > 0
+  ) {
+    status.isData = true;
+    return { status, result: data.getPaginatedDescriptors };
+  }
+
+  status.isError = true;
+  return { status, result: `Could not retrieve data` };
 }
 
 function GENDER_OBJECT(Gender) {

@@ -7,7 +7,7 @@ import "./user-descriptor.css";
 //GraphQL ----------------------------------------------------------------
 const GLOBAL_POUNDS_QUERY = gql`
   {
-    getPaginatedDescriptorsGlobal(unit: "lb", start: 0, count: 1000) {
+    getPaginatedDescriptorsGlobal(unit: "lb", start: 0, count: 250) {
       value
     }
   }
@@ -28,8 +28,16 @@ function GET_GLOBAL_POUNDS() {
     return { status, result: `Error! ${error.message}` };
   }
 
-  status.isData = true;
-  return { status, result: data.getPaginatedDescriptorsGlobal };
+  if (
+    Array.isArray(data.getPaginatedDescriptorsGlobal) &&
+    data.getPaginatedDescriptorsGlobal.length > 0
+  ) {
+    status.isData = true;
+    return { status, result: data.getPaginatedDescriptorsGlobal };
+  }
+
+  status.isError = true;
+  return { status, result: `Could not retrieve data` };
 }
 
 const USER_POUNDS_QUERY = gql`

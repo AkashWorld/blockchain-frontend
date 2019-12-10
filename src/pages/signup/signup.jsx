@@ -1,36 +1,62 @@
 ﻿import React from "react";
-import { useHistory } from "react-router-dom";
 import "./signup.css";
-import { useMutation, useApolloClient } from "@apollo/react-hooks";
-import { signup, hasLoggedIn } from "../../queries";
-import "bootstrap/dist/css/bootstrap.min.css";
+import { signup } from "../../queries";
 import { token } from "../../resources/token";
 import LoadingScreen from "react-loading-screen";
+import { ApolloContext } from "../../apollo-context-provider";
+import { Redirect } from "react-router-dom";
 
 export class SignUpComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: ""
+      id: "",
+      loading: false,
+      redirect: false
     };
   }
 
   submitForm(e) {
     e.preventDefault();
-    this.props.signup({
-      variables: {
-        id: this.state.id
-      }
-    });
+    const variables = {
+      id: this.state.id
+    };
+    this.context.client
+      .mutate({ mutation: signup, variables })
+      .then(({ createNewAccount }) => {
+        console.log(createNewAccount.newKey);
+        localStorage.setItem(token, createNewAccount.newKey);
+        this.setState({ ...this.state, redirect: true, loading: false });
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
+
   render() {
+    if (this.state.loading) {
+      return (
+        <LoadingScreen
+          loading={true}
+          bgColor="#66ccff"
+          spinnerColor="#9ee5f8"
+          textColor="#ffffff"
+          text="Creating your personal account"
+        />
+      );
+    } else if (this.state.redirect) {
+      return <Redirect to="login"></Redirect>;
+    }
     return (
       <div className="auth-wrapper">
         <div className="auth-inner">
           <form>
-            <h3>Sign Up</h3>
-            <div className="form-group">
-              <label>Private key</label>
+            <h1 style={{ marginLeft: "175px" }}>Sign Up</h1>
+            <div
+              style={{ display: "flex", flexDirection: "row" }}
+              className="form-group"
+            >
+              <label id="privatekey">Private key</label>
               <input
                 type="password"
                 className="form-control"
@@ -40,6 +66,7 @@ export class SignUpComponent extends React.Component {
             </div>
 
             <button
+              id="signUpButton"
               type="submit"
               className="btn btn-primary btn-block"
               onClick={e => this.submitForm(e)}
@@ -55,30 +82,5 @@ export class SignUpComponent extends React.Component {
     );
   }
 }
-export function SignUp() {
-  const client = useApolloClient();
-  const history = useHistory();
-  const [userSignUp, { loading }] = useMutation(signup, {
-    onCompleted({ createNewAccount }) {
-      const { newKey } = createNewAccount;
-      localStorage.setItem(token, newKey);
-      client.writeQuery({ query: hasLoggedIn, data: { isLoggedIn: true } });
-      history.push("/user_info");
-    },
-    onError() {
-      alert("Invalid Private Key or Account Already Exists");
-    }
-  });
-  if (loading) {
-    return (
-      <LoadingScreen
-        loading={true}
-        bgColor="#66ccff"
-        spinnerColor="#9ee5f8"
-        textColor="#ffffff"
-        text="Creating your personal account"
-      />
-    );
-  }
-  return <SignUpComponent history={history} signup={userSignUp} />;
-}
+
+SignUpComponent.contextType = ApolloContext;

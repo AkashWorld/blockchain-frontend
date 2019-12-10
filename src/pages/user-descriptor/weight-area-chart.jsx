@@ -28,8 +28,16 @@ function GET_GLOBAL_POUNDS() {
     return { status, result: `Error! ${error.message}` };
   }
 
-  status.isData = true;
-  return { status, result: data.getPaginatedDescriptorsGlobal };
+  if (
+    Array.isArray(data.getPaginatedDescriptorsGlobal) &&
+    data.getPaginatedDescriptorsGlobal.length > 0
+  ) {
+    status.isData = true;
+    return { status, result: data.getPaginatedDescriptorsGlobal };
+  }
+
+  status.isError = true;
+  return { status, result: `Could not retrieve data` };
 }
 
 const USER_POUNDS_QUERY = gql`
