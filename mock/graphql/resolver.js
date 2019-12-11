@@ -466,6 +466,9 @@ module.exports.resolvers = {
       }
       return null;
     },
+    getLengthOfDescriptor: () => {
+      return 10;
+    },
     getWebsiteSuggestions: (_, args) => {
       if (args.unitName == "weight") {
         /**They will be all different in the real backend */

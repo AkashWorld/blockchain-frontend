@@ -8,7 +8,7 @@ import "./user-descriptor.css";
 
 const USER_BPM_QUERY = gql`
   {
-    getPaginatedDescriptors(unit: "bpm", start: 0, count: 250) {
+    getPaginatedDescriptorsGlobal(unit: "bpm", start: 0, count: 250) {
       value
     }
   }
@@ -30,11 +30,11 @@ function GET_USER_BPM() {
   }
 
   if (
-    Array.isArray(data.getPaginatedDescriptors) &&
-    data.getPaginatedDescriptors.length > 0
+    Array.isArray(data.getPaginatedDescriptorsGlobal) &&
+    data.getPaginatedDescriptorsGlobal.length > 0
   ) {
     status.isData = true;
-    return { status, result: data.getPaginatedDescriptors };
+    return { status, result: data.getPaginatedDescriptorsGlobal };
   }
 
   status.isError = true;

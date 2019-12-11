@@ -5,11 +5,12 @@ import { split } from "apollo-link";
 import { getMainDefinition } from "apollo-utilities";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { ApolloClient, InMemoryCache } from "apollo-boost";
+import { token } from "./resources/token";
 
 export const ApolloContext = React.createContext();
 
-const remoteUrl =
-  process.env.NODE_ENV === "production" ? "localhost:8080" : "localhost:10000";
+const remoteUrl = "localhost:8080";
+//process.env.NODE_ENV === "production" ? "localhost:8080" : "localhost:10000";
 console.log("Connecting to remote url: " + remoteUrl);
 
 /**
@@ -19,18 +20,33 @@ export class ApolloContextProvider extends React.Component {
   constructor(props) {
     super(props);
     this.addHeadersToClient = this.addHeadersToClient.bind(this);
+    const auth = localStorage.getItem(token);
     this.state = {
-      client: new ApolloClient({ link: getLink(), cache: new InMemoryCache() }),
+      client: new ApolloClient({
+        link: getLink(auth ? { authorization: auth } : {}),
+        cache: new InMemoryCache()
+      }),
       cb: this.addHeadersToClient
     };
   }
 
   addHeadersToClient(headers) {
+    const defaultOptions = {
+      watchQuery: {
+        fetchPolicy: "no-cache",
+        errorPolicy: "ignore"
+      },
+      query: {
+        fetchPolicy: "no-cache",
+        errorPolicy: "all"
+      }
+    };
     this.setState({
       ...this.state,
       client: new ApolloClient({
         link: getLink(headers),
-        cache: new InMemoryCache()
+        cache: new InMemoryCache(),
+        defaultOptions
       })
     });
     console.log("Changed client to include the following header:");

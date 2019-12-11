@@ -66,30 +66,43 @@ export class DataEntryMap extends React.Component {
 
   componentDidMount() {
     this.setState({ ...this.state, loading: true });
-    this.context.client.query({ query: locationQuery }).then(({ data }) => {
-      this.setState({
-        ...this.state,
-        loading: false,
-        data: data.getPaginatedDescriptors.map(val => {
-          return { latitude: val.latitude, longitude: val.longitude };
+    this.context.client.query({ query: LG_DATA_LENGTH }).then(({ data }) => {
+      console.log(`Map data length: ${data.getLengthOfDescriptor}`);
+      this.context.client
+        .query({
+          query: LG_DATA,
+          variables: { count: data.getLengthOfDescriptor }
         })
-      });
-      const locations = data.getPaginatedDescriptors;
-      this.renderMap();
-      locations.forEach(marker => {
-        new mapboxgl.Marker()
-          .setLngLat({ lat: marker.latitude, lng: marker.longitude })
-          .setPopup(
-            new mapboxgl.Popup({ offset: 25 }).setHTML(
-              "<h3>Recorded Weight</h3><p>" + marker.value + "</p>"
-            )
-          )
-          .addTo(this.map);
-        this.map.setCenter({
-          lat: locations[0].latitude,
-          lng: locations[0].longitude
+        .then(({ data }) => {
+          this.setState({
+            ...this.state,
+            loading: false,
+            data: data.getPaginatedDescriptors
+              .filter(val => {
+                return val.longitude < 90 && val.latitude < 90;
+              })
+              .map(val => {
+                return { latitude: val.latitude, longitude: val.longitude };
+              })
+          });
+          console.log(this.state.data);
+          const locations = this.state.data;
+          this.renderMap();
+          locations.forEach(marker => {
+            new mapboxgl.Marker()
+              .setLngLat({ lat: marker.latitude, lng: marker.longitude })
+              .setPopup(
+                new mapboxgl.Popup({ offset: 25 }).setHTML(
+                  "<h3>Recorded Weight</h3><p>" + marker.value + "</p>"
+                )
+              )
+              .addTo(this.map);
+            this.map.setCenter({
+              lat: this.state.data.length > 0 ? this.state.data[0].latitude : 0,
+              lng: this.state.data.length > 0 ? this.state.data[0].longitude : 0
+            });
+          });
         });
-      });
     });
   }
 
@@ -123,12 +136,18 @@ const stylesheet = {
   }
 };
 
-const locationQuery = gql`
-  {
-    getPaginatedDescriptors(unit: "lb", start: 0, count: 10) {
+const LG_DATA = gql`
+  query getDescriptors($count: Int!) {
+    getPaginatedDescriptors(unit: "lb", start: 0, count: $count) {
       value
       longitude
       latitude
     }
+  }
+`;
+
+const LG_DATA_LENGTH = gql`
+  {
+    getLengthOfDescriptor(unit: "lb")
   }
 `;

@@ -40,6 +40,7 @@ export class WeightChangeComponent extends React.Component {
     this.context.client
       .query({ query: weightQuery })
       .then(({ data }) => {
+        console.log("Weight trend card");
         console.log(data.getDailyWeight);
         this.setState({
           ...this.state,

@@ -40,11 +40,12 @@ export class BMICardComponent extends React.Component {
     this.context.client
       .query({ query: BMIQuery })
       .then(({ data }) => {
+        console.log("BMI Card");
         console.log(data.getDailyBMI);
         this.setState({
           ...this.state,
           loading: false,
-          value: data.getDailyBMI.value,
+          value: data.getDailyBMI.value.toFixed(2),
           trend: data.getDailyBMI.trend
         });
       })

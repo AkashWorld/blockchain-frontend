@@ -58,6 +58,7 @@ export class TopNavigator extends React.Component {
       myAccount: true
     });
     this.context.cb({});
+    localStorage.clear();
   }
 
   render() {

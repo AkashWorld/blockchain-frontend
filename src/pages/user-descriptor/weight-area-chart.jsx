@@ -7,7 +7,7 @@ import "./user-descriptor.css";
 //GraphQL ----------------------------------------------------------------
 const GLOBAL_POUNDS_QUERY = gql`
   {
-    getPaginatedDescriptorsGlobal(unit: "lb", start: 0, count: 1000) {
+    getPaginatedDescriptorsGlobal(unit: "lb", start: 0, count: 250) {
       value
     }
   }

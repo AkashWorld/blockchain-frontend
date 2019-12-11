@@ -69,7 +69,8 @@ type Subscription {
 }
 
 extend type Query {
-	getBalance: Float!
+        getBalance: Float!
+        getLengthOfDescriptor: Int!
 }
 type Verify {
 	address: String!
