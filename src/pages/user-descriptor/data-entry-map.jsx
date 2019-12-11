@@ -82,7 +82,11 @@ export class DataEntryMap extends React.Component {
                 return val.longitude < 90 && val.latitude < 90;
               })
               .map(val => {
-                return { latitude: val.latitude, longitude: val.longitude };
+                return {
+                  latitude: val.latitude,
+                  longitude: val.longitude,
+                  value: val.value
+                };
               })
           });
           console.log(this.state.data);

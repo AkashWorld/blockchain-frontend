@@ -110,3 +110,9 @@ button#signUpButton:hover {
 #privatekey {
   margin-top: 7.5px;
 }
+
+h1#title {
+  font-size: 100px;
+  color: rgb(176, 221, 255);
+  align-self: center;
+}

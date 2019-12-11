@@ -67,17 +67,9 @@ export class WeightChangeComponent extends React.Component {
         </div>
       );
     }
-    let trend = "";
-    if (this.state.trend === "UP") {
-      trend = "↑";
-    } else if (this.state.trend === "DOWN") {
-      trend = "↓";
-    }
     return (
       <div style={styles.container}>
-        <h1 style={styles.text}>
-          {this.state.value} lb {trend}
-        </h1>
+        <h1 style={styles.text}>{this.state.value} lb</h1>
       </div>
     );
   }

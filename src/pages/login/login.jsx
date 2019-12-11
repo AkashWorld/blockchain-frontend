@@ -13,7 +13,7 @@ import { token } from "../../resources/token";
  * will be processed by setContext. This is an async function, any calls to this
  * has to have async/await or use .then
  */
-async function getSM() {
+export async function getSM() {
   if (window.ethereum) {
     window.Web3 = new Web3(window.ethereum);
     try {
@@ -75,6 +75,7 @@ export class LoginComponent extends React.Component {
     }
     return (
       <div className="auth-wrapper">
+        <h1 id="title">Health Analytics Engine</h1>
         <div className="auth-inner">
           <form>
             <h1 style={{ marginLeft: "200px" }}>Log In</h1>

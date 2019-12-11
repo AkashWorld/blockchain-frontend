@@ -1,7 +1,8 @@
 ﻿import React from "react";
 import "./signup.css";
-import { signup } from "../../queries";
+import { signup, login } from "../../queries";
 import { token } from "../../resources/token";
+import { getSM } from "../login/login";
 import LoadingScreen from "react-loading-screen";
 import { ApolloContext } from "../../apollo-context-provider";
 import { Redirect } from "react-router-dom";
@@ -12,11 +13,13 @@ export class SignUpComponent extends React.Component {
     this.state = {
       id: "",
       loading: false,
-      redirect: false
+      redirectToForm: false,
+      redirectToLogin: false
     };
   }
 
   submitForm(e) {
+    this.setState({ ...this.state, loading: true });
     e.preventDefault();
     const variables = {
       id: this.state.id
@@ -24,12 +27,47 @@ export class SignUpComponent extends React.Component {
     this.context.client
       .mutate({ mutation: signup, variables })
       .then(({ createNewAccount }) => {
-        console.log(createNewAccount.newKey);
-        localStorage.setItem(token, createNewAccount.newKey);
-        this.setState({ ...this.state, redirect: true, loading: false });
+        console.log(`Create Account: ${createNewAccount.newKey}`);
+        getSM()
+          .then(msg => {
+            this.context.client
+              .mutate({ mutation: login, variables: { id: msg } })
+              .then(({ data }) => {
+                console.log(data);
+                this.context.cb({ authorization: data.verify.address });
+                localStorage.setItem(token, data.verify.address);
+                this.setState({
+                  ...this.state,
+                  loading: false,
+                  redirectToForm: true
+                });
+              });
+          })
+          .catch(err => {
+            console.log(err);
+            getSM().then(msg => {
+              this.context.client
+                .mutate({ mutation: login, variables: { id: msg } })
+                .then(({ data }) => {
+                  console.log(data);
+                  this.context.cb({ authorization: data.verify.address });
+                  localStorage.setItem(token, data.verify.address);
+                  this.setState({
+                    ...this.state,
+                    loading: false,
+                    redirect: true
+                  });
+                });
+            });
+          });
       })
       .catch(err => {
         console.log(err);
+        this.setState({
+          ...this.state,
+          loading: false,
+          redirectToLogin: true
+        });
       });
   }
 
@@ -44,11 +82,14 @@ export class SignUpComponent extends React.Component {
           text="Creating your personal account"
         />
       );
-    } else if (this.state.redirect) {
-      return <Redirect to="login"></Redirect>;
+    } else if (this.state.redirectToForm) {
+      return <Redirect to="form"></Redirect>;
+    } else if (this.state.redirectToLogin) {
+      return <Redirect to="/"></Redirect>;
     }
     return (
       <div className="auth-wrapper">
+        <h1 id="title">Health Analytics Engine</h1>
         <div className="auth-inner">
           <form>
             <h1 style={{ marginLeft: "175px" }}>Sign Up</h1>

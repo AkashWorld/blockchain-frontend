@@ -71,6 +71,7 @@ export class LineGraph extends React.Component {
             variables: { count: data.getLengthOfDescriptor }
           })
           .then(({ data }) => {
+            console.log(data.getPaginatedDescriptors);
             this.setState({
               ...this.state,
               isLoading: false,
@@ -154,7 +155,7 @@ export class LineGraph extends React.Component {
         if (i === currentValue - 1) {
           weightIndx = weightIndex;
           usergender = GENDER_ARRAY[0].gender;
-          userValue = this.state.data[i + 1].value;
+          userValue = this.state.data[this.state.data.length - 1].value;
           console.log(userValue);
         }
       }
@@ -183,7 +184,7 @@ export class LineGraph extends React.Component {
             },
             title: {
               left: "center",
-              text: "Current User Weight:" + userValue,
+              text: "Current User Weight: " + (userValue ? userValue : "None"),
               textStyle: { color: "#151965" }
             },
             toolbox: {
